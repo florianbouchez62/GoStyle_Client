@@ -1,14 +1,14 @@
-import React from 'react';
+import React from 'react'
 import { StyleSheet, Text, View } from 'react-native';
+import Navigation from './Component/bottomNav'
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
-  );
+export default class App extends React.Component {
+  render() {
+    return (
+        <Navigation/>
+    )
+  }
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
