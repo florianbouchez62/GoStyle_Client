@@ -29,6 +29,10 @@ build/
 local.properties
 *.iml
 
+# Expo
+.expo
+.expo-shared
+
 # node.js
 #
 node_modules/
