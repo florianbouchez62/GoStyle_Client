@@ -45,4 +45,6 @@ target 'GoStyle' do
   use_unimodules!
   pod 'react-native-camera-kit', :path => '../node_modules/react-native-camera-kit'
 
+  pod 'react-native-camera', :path => '../node_modules/react-native-camera'
+
 end

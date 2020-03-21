@@ -5,6 +5,7 @@ export default function App() {
   return (
     <View style={style.container}>
       <Text>Home Screen</Text>
+      <Text>zizi</Text>
     </View>
   );
 }
