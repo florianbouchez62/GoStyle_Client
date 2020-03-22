@@ -14,9 +14,11 @@ L'application cliente (iOS, Android) de l'API GoStyle !
 - `cd GoStyle_Client\App_GoStyle\App`
 - `npm install`
 
+Pour le scan de QRCode, veillez à ce que votre téléphone soit sur le même réseau que votre ordinateur hébergeant le serveur Expo.
+
 ### Run on Android
 - Dans `App` éxécuter la commande `expo start`
-- Sur votre téléphone (USB) :
+- Sur votre téléphone (requiert Expo sur votre téléphone) :
   - Scanner le QR Code sur la page web générée par Expo
   - Have fun !
 - Sur Emulateur :
@@ -32,4 +34,13 @@ L'application cliente (iOS, Android) de l'API GoStyle !
   - Have fun !
   
 ### Run on iOS
-@TODO
+- Sur votre téléphone (requiert Expo sur votre téléphone)
+  - Dans `App` exécuter la commande `expo start`
+  - Scanner le QR Code sur la page web générée par Expo
+  - Have fun !
+- Sur Emulateur :
+  - Ouvrir XCode
+  - Charger le fichier `GoStyle.xcworkspace` sous `App\ios'
+  - Dans la barre du haut, sélectionner un émulateur (ou votre téléphone iOS si il est branché en USB) et cliquer sur Play.
+  - L'émulateur se lance automatiquement.
+  - Have fun !
