@@ -1,0 +1,7 @@
+#Wed Jan 15 09:31:48 CET 2020
+base.0=C\:\\react\\ReactNative\\GoStyle\\GoStyle_Client\\App_GoStyle\\App\\android\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\0
+path.1=classes.dex
+renamed.1=classes2.dex
+path.0=classes.dex
+renamed.0=classes.dex
+base.1=C\:\\react\\ReactNative\\GoStyle\\GoStyle_Client\\App_GoStyle\\App\\android\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\1
