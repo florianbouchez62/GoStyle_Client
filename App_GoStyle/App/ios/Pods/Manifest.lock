@@ -210,7 +210,15 @@ PODS:
     - React-cxxreact (= 0.61.5)
     - React-jsi (= 0.61.5)
   - React-jsinspector (0.61.5)
+  - react-native-camera (3.21.0):
+    - React
+    - react-native-camera/RCT (= 3.21.0)
+    - react-native-camera/RN (= 3.21.0)
   - react-native-camera-kit (8.0.4):
+    - React
+  - react-native-camera/RCT (3.21.0):
+    - React
+  - react-native-camera/RN (3.21.0):
     - React
   - React-RCTActionSheet (0.61.5):
     - React-Core/RCTActionSheetHeaders (= 0.61.5)
@@ -298,6 +306,7 @@ DEPENDENCIES:
   - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
+  - react-native-camera (from `../node_modules/react-native-camera`)
   - react-native-camera-kit (from `../node_modules/react-native-camera-kit`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -393,6 +402,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsiexecutor"
   React-jsinspector:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
+  react-native-camera:
+    :path: "../node_modules/react-native-camera"
   react-native-camera-kit:
     :path: "../node_modules/react-native-camera-kit"
   React-RCTActionSheet:
@@ -487,6 +498,7 @@ SPEC CHECKSUMS:
   React-jsi: cb2cd74d7ccf4cffb071a46833613edc79cdf8f7
   React-jsiexecutor: d5525f9ed5f782fdbacb64b9b01a43a9323d2386
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
+  react-native-camera: a9749fa0c1162cdb2f56b93a5d97a72ebd56694f
   react-native-camera-kit: ded127598a48890a360fbf5e26cf7c44fcc5b873
   React-RCTActionSheet: 600b4d10e3aea0913b5a92256d2719c0cdd26d76
   React-RCTAnimation: 791a87558389c80908ed06cc5dfc5e7920dfa360
@@ -515,6 +527,6 @@ SPEC CHECKSUMS:
   UMTaskManagerInterface: ee5b1ee1056eb338ff2d521ba79460d8cd0bae7d
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
-PODFILE CHECKSUM: fea979e2a411efa09e97d2dfa4ac539afe7aa327
+PODFILE CHECKSUM: 003313a87e3ece08baea2512ae34772d81bcb1a1
 
 COCOAPODS: 1.9.1

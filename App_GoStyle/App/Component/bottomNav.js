@@ -4,11 +4,14 @@ import { BottomNavigation, Text} from 'react-native-paper';
 import HomeActivity from '../Activity/HomeActivity';
 import QRScanActivity from '../Activity/QRcodeActivity';
 import PromoActivity from '../Activity/PromoActivity';
+import QRCodeTestActivity from "../Activity/QRCodeTestActivity";
 
 
 const HomeRoute = () => <HomeActivity/>;
 
 const QRScanRoute = () => <QRScanActivity/>;
+
+const QRCodeTestRoute = () => <QRCodeTestActivity/>;
 
 const PromoRoute = () => <PromoActivity/>;
 
@@ -19,6 +22,7 @@ export default class bottomBar extends React.Component {
     routes: [
       { key: 'home', title: 'Home', icon: 'home'},
       { key: 'qrscan', title: 'QR Scan', icon: 'qrcode-scan'},
+      { key: 'qrcodetest', title: 'QR Code Test', icon: 'qrcode-scan'},
       { key: 'promo', title: 'Promos' , icon: 'sale'},
     ],
   };
@@ -28,6 +32,7 @@ export default class bottomBar extends React.Component {
   _renderScene = BottomNavigation.SceneMap({
     home : HomeRoute,
     qrscan: QRScanRoute,
+    qrcodetest: QRCodeTestRoute,
     promo: PromoRoute,
   });
 
