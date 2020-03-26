@@ -10,7 +10,10 @@ export default class QRCodeTestActivity extends React.Component {
 
     state = {
         hasCameraPermission: null,
-        scanned: false,
+        scanned: true,
+        alreadyScanned: false,
+        defaultTitle: 'Scanner un code',
+        titleAfterOneScan: 'Scanner un nouveau code'
     };
 
     async componentDidMount() {
@@ -23,6 +26,8 @@ export default class QRCodeTestActivity extends React.Component {
     };
 
     handleBarCodeScanned = ({ type, data }) => {
+        const {alreadyScanned} = this.state;
+        if(!alreadyScanned) this.setState({alreadyScanned: true});
         this.setState({ scanned: true });
         //Permet de s'assurer que le code scanné est bien un QRCode
         if(type === "org.iso.QRCode"){
@@ -56,7 +61,7 @@ export default class QRCodeTestActivity extends React.Component {
     }
 
     render() {
-        const { hasCameraPermission, scanned } = this.state;
+        const { hasCameraPermission, scanned, alreadyScanned, defaultTitle, titleAfterOneScan } = this.state;
 
         if (hasCameraPermission === null) {
             return <Text>Requesting for camera permission</Text>;
@@ -71,14 +76,17 @@ export default class QRCodeTestActivity extends React.Component {
                     flexDirection: 'column',
                     justifyContent: 'flex-end',
                 }}>
-                <BarCodeScanner
-                    onBarCodeScanned={scanned ? undefined : this.handleBarCodeScanned}
-                    style={StyleSheet.absoluteFillObject}
-                />
+
+                {!scanned && (
+                    <BarCodeScanner
+                        onBarCodeScanned={scanned ? undefined : this.handleBarCodeScanned}
+                        style={StyleSheet.absoluteFillObject}
+                    />
+                )}
 
                 {scanned && (
                     <Button
-                        title={'Scanner un nouveau code'}
+                        title={alreadyScanned === false ? defaultTitle : titleAfterOneScan }
                         onPress={() => this.setState({ scanned: false })}
                     />
                 )}
