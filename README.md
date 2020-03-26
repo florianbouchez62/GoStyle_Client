@@ -30,7 +30,7 @@
 
 
 For the QRCode scan, make sure that your phone is on the same network as your computer hosting the Expo server.
-### Configuration du projet
+### Project configuration
 - Copy the file `.env.example` and rename it to `.env`
 - Replace the value of `API_URL` with the API URL and `API_PORT` with the API port. 
 
