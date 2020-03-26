@@ -17,6 +17,7 @@
     "react-native": "~0.61.4",
     "react-native-camera": "^3.21.0",
     "react-native-camera-kit": "^8.0.4",
+    "react-native-dotenv": "^0.2.0",
     "react-native-gesture-handler": "^1.5.3",
     "react-native-link": "^4.1.0",
     "react-native-material-bottom-navigation": "^1.0.5",

@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
-import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
+import {API_URL, API_PORT} from 'react-native-dotenv';
+import {Promotion} from "../models/Promotion";
 
 import { BarCodeScanner } from 'expo-barcode-scanner';
 
@@ -20,6 +21,39 @@ export default class QRCodeTestActivity extends React.Component {
         const { status } = await Permissions.askAsync(Permissions.CAMERA);
         this.setState({ hasCameraPermission: status === 'granted' });
     };
+
+    handleBarCodeScanned = ({ type, data }) => {
+        this.setState({ scanned: true });
+        //Permet de s'assurer que le code scanné est bien un QRCode
+        if(type === "org.iso.QRCode"){
+            this.getPromotionFromServer(data);
+        } else {
+            alert(`Le QRCode est invalide.`);
+        }
+    };
+
+    getPromotionFromServer(data){
+        const url = 'http://' + API_URL + ':' + API_PORT + data;
+        fetch(url,{
+            method: 'GET'
+        })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                const promotion = new Promotion(responseJson.name, responseJson.description, responseJson.start_date,
+                    responseJson.end_date, responseJson.percentage, responseJson.base64_image);
+                console.log(promotion.name);
+                console.log(promotion.description);
+                console.log(promotion.start);
+                console.log(promotion.end);
+                console.log(promotion.percentage);
+                console.log(promotion.image);
+                alert('La promotion ' + promotion.name + " : " + promotion.description + " a bien été recupérée.")
+                //TODO: Stocker la promotion
+            })
+            .catch((error) => {
+                alert("Le QRCode n'est pas lié à une promotion.");
+            });
+    }
 
     render() {
         const { hasCameraPermission, scanned } = this.state;
@@ -44,20 +78,11 @@ export default class QRCodeTestActivity extends React.Component {
 
                 {scanned && (
                     <Button
-                        title={'Tap to Scan Again'}
+                        title={'Scanner un nouveau code'}
                         onPress={() => this.setState({ scanned: false })}
                     />
                 )}
             </View>
         );
     }
-
-    handleBarCodeScanned = ({ type, data }) => {
-        this.setState({ scanned: true });
-        if(type === "org.iso.QRCode"){
-            alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-        } else {
-            alert(`Le QRCode est invalide.`);
-        }
-    };
 }
