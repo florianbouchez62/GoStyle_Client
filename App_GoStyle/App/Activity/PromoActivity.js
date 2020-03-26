@@ -7,6 +7,7 @@ export default class App extends Component {
     state = {
         data: ''
      }
+     
 
      componentDidMount = () => {
         fetch('http://192.168.43.245:8000/promotions/',{
@@ -40,11 +41,11 @@ export default class App extends Component {
            Alert.alert(item.name, item.description);  
        }  
     
-     
+       
        render() {
 
            return (  
-               
+
                <View style={styles.container}> 
                      <Text style={styles.titre}>Promotions :</Text>
                      <Text style={styles.info}>(cliquer sur une promotion pour plus de détails){'\n'}</Text>
@@ -56,7 +57,7 @@ export default class App extends Component {
                         <Text style = {styles.item} onPress={this.getListViewItem.bind(this, item)}>
 
                         <Text style = {styles.nameItem}>{item.name}</Text>{'\n'}
-                        <Image style = {styles.img} source = {{uri:item.img}}/>{'\n'}{'\n'}{'\n'}
+                        <Image style = {styles.img} source = {{uri: 'data:image/png;base64,' + item.base64_image}}/>{'\n'}{'\n'}{'\n'}
                         <Text style = {styles.titreh4}>Date de début : </Text><Text style = {styles.libelle}>{item.start_date}</Text>{'\n'}
                         <Text style = {styles.titreh4}>Date de fin : </Text><Text style = {styles.libelle}>{item.end_date}</Text>{'\n'}
                         <Text style = {styles.titreh4}>Remise : </Text><Text style = {styles.libelle}>{item.percentage} %</Text>
