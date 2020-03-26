@@ -39,6 +39,7 @@ export default class QRCodeTestActivity extends React.Component {
 
     getPromotionFromServer(data){
         const url = 'http://' + API_URL + ':' + API_PORT + data;
+        console.log(url);
         fetch(url,{
             method: 'GET'
         })
