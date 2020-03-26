@@ -16,6 +16,16 @@ L'application cliente (iOS, Android) de l'API GoStyle !
 
 Pour le scan de QRCode, veillez à ce que votre téléphone soit sur le même réseau que votre ordinateur hébergeant le serveur Expo.
 
+### Configuration du projet
+- Copier le fichier `.env.example` et le renommer en `.env`
+- Remplacer le contenu de la variable `API_URL` avec l'URL de l'API et `API_PORT` avec le port de l'API. 
+
+Exemple, si l'URL de l'API est `192.168.1.1:8000`, écrire ceci :
+````
+# GoStyle_Client\App_GoStyle\App\.env
+API_URL=192.168.1.1
+API_PORT=8000
+````
 ### Run on Android
 - Dans `App` éxécuter la commande `expo start`
 - Sur votre téléphone (requiert Expo sur votre téléphone) :
