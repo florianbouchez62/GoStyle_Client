@@ -1,35 +1,63 @@
-import { Camera } from 'expo-camera';
+import * as React from 'react';
+import { Text, View, StyleSheet, Button } from 'react-native';
+import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
-import React, {Component} from "react";
-import { Text, View } from 'react-native';
 
-export default class QRCodeTestActivity extends Component {
+import { BarCodeScanner } from 'expo-barcode-scanner';
+
+export default class QRCodeTestActivity extends React.Component {
 
     state = {
-        hasPermission: null,
-        type: Camera.Constants.Type.back,
+        hasCameraPermission: null,
+        scanned: false,
     };
 
     async componentDidMount() {
+        this.getPermissionsAsync();
+    }
+
+    getPermissionsAsync = async () => {
         const { status } = await Permissions.askAsync(Permissions.CAMERA);
-        this.setState({ hasPermission: status === 'granted' });
-    }
+        this.setState({ hasCameraPermission: status === 'granted' });
+    };
 
-    render(){
-        const { hasPermission } = this.state;
-        if (hasPermission === null) {
-            return <View />;
-        } else if (hasPermission === false) {
-            return <Text>No access to camera</Text>;
-        } else {
-            return (
-                <View style={{ flex: 1 }}>
-                    <Camera style={{ flex: 1 }} type={this.state.cameraType}>
+    render() {
+        const { hasCameraPermission, scanned } = this.state;
 
-                    </Camera>
-                </View>
-            );
+        if (hasCameraPermission === null) {
+            return <Text>Requesting for camera permission</Text>;
         }
+        if (hasCameraPermission === false) {
+            return <Text>No access to camera</Text>;
+        }
+        return (
+            <View
+                style={{
+                    flex: 1,
+                    flexDirection: 'column',
+                    justifyContent: 'flex-end',
+                }}>
+                <BarCodeScanner
+                    onBarCodeScanned={scanned ? undefined : this.handleBarCodeScanned}
+                    style={StyleSheet.absoluteFillObject}
+                />
+
+                {scanned && (
+                    <Button
+                        title={'Tap to Scan Again'}
+                        onPress={() => this.setState({ scanned: false })}
+                    />
+                )}
+            </View>
+        );
     }
 
+    handleBarCodeScanned = ({ type, data }) => {
+        this.setState({ scanned: true });
+        if(type === "org.iso.QRCode"){
+            alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+        } else {
+            alert(`Le QRCode est invalide.`);
+        }
+    };
 }
