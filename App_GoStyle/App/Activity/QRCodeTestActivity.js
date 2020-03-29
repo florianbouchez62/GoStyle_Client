@@ -33,7 +33,7 @@ export default class QRCodeTestActivity extends React.Component {
         this.setState({ scanned: true });
         //Permet de s'assurer que le code scanné est bien un QRCode
         const qrData = JSON.parse(data);
-        if(type === "org.iso.QRCode"){
+        if(type === "org.iso.QRCode" || type === 256){
             this.getPromotionFromServer(qrData.url, qrData.token);
         } else {
             alert(`Le QRCode est invalide.`);
