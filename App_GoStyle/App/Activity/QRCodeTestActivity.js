@@ -3,11 +3,13 @@ import { Text, View, StyleSheet, Button } from 'react-native';
 import * as Permissions from 'expo-permissions';
 import {API_URL, API_PORT} from 'react-native-dotenv';
 import {Promotion} from "../models/Promotion";
+import * as SQLite from "expo-sqlite";
+
+const db = SQLite.openDatabase("local.db");
 
 import { BarCodeScanner } from 'expo-barcode-scanner';
 
 export default class QRCodeTestActivity extends React.Component {
-
     state = {
         hasCameraPermission: null,
         scanned: true,
@@ -30,35 +32,74 @@ export default class QRCodeTestActivity extends React.Component {
         if(!alreadyScanned) this.setState({alreadyScanned: true});
         this.setState({ scanned: true });
         //Permet de s'assurer que le code scanné est bien un QRCode
+        const qrData = JSON.parse(data);
         if(type === "org.iso.QRCode"){
-            this.getPromotionFromServer(data);
+            this.getPromotionFromServer(qrData.url, qrData.token);
         } else {
             alert(`Le QRCode est invalide.`);
         }
     };
 
-    getPromotionFromServer(data){
-        const url = 'http://' + API_URL + ':' + API_PORT + data;
-        console.log(url);
-        fetch(url,{
-            method: 'GET'
-        })
-            .then((response) => response.json())
-            .then((responseJson) => {
-                const promotion = new Promotion(responseJson.name, responseJson.description, responseJson.start_date,
-                    responseJson.end_date, responseJson.percentage, responseJson.base64_image);
-                console.log(promotion.name);
-                console.log(promotion.description);
-                console.log(promotion.start);
-                console.log(promotion.end);
-                console.log(promotion.percentage);
-                console.log(promotion.image);
-                alert('La promotion ' + promotion.name + " : " + promotion.description + " a bien été recupérée.")
-                //TODO: Stocker la promotion
-            })
-            .catch((error) => {
-                alert("Le QRCode n'est pas lié à une promotion.");
-            });
+    getPromotionFromServer(apiPath, token){
+        const requestUrl = 'http://' + API_URL + ':' + API_PORT + apiPath;
+        let promotion = null;
+
+        const request = async() => {
+            const reqHeaders = new Headers();
+            reqHeaders.append("Authorization", ("token " + token));
+            const head = {method: 'GET',
+                          headers: reqHeaders,
+                          mode: 'cors',
+                          cache: 'default'};
+            const response = await fetch(requestUrl, head);
+
+            if(response.status >= 200 && response.status < 300){
+                const json = await response.json();
+                const promotion = this.convertToPromotion(json);
+                this.insertDb(promotion, apiPath);
+                alert('La promotion ' + promotion.name + " : " + promotion.description + " a bien été recupérée.");
+
+            } else {
+                console.log(response.status);
+                alert('Impossible de récupérer la promotion');
+            }
+        };
+
+        request().then();
+    }
+
+    convertToPromotion(json){
+        try{
+            return new Promotion(json.id, json.name, json.description, json.start_date, json.end_date,
+                json.percentage, json.base64_image);
+        } catch(e){
+            alert('Impossible de créer la promotion');
+            return null;
+        }
+    }
+
+    insertDb(promotion, apiPath){
+        const current_date = new Date();
+        const string_date = current_date.getFullYear() + '-' + current_date.getMonth() + '-' + current_date.getDay();
+        let queryArgs = [];
+        db.transaction(
+            tx => {
+
+                tx.executeSql(
+                    "INSERT INTO Promotion (name, description, start_date, end_date, scan_date, percentage, image, api_path) VALUES (?,?,?,?,?,?,?,?)",
+                    [promotion._name, promotion._description, promotion._start, promotion._end, string_date, promotion._percentage, promotion._image, apiPath],
+                    (tx, results) => {console.log("Row Promotion inserted successfully: " + results);},
+                    (tx, error) => {console.log("Could not insert row Promotion: " + error);}
+                    );
+
+            },
+            error => {
+                console.log("Error on transaction (insert row Promotion): " + error);
+            },
+            () => {
+                console.log("Transaction done (insert row Promotion) successfully !");
+            }
+        );
     }
 
     render() {
