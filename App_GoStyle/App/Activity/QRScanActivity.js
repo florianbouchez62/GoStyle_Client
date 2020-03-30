@@ -9,7 +9,7 @@ const db = SQLite.openDatabase("local.db");
 
 import { BarCodeScanner } from 'expo-barcode-scanner';
 
-export default class QRCodeTestActivity extends React.Component {
+export default class QRScanActivity extends React.Component {
     state = {
         hasCameraPermission: null,
         scanned: true,
