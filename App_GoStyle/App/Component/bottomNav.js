@@ -2,8 +2,9 @@ import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { BottomNavigation, Text} from 'react-native-paper';
 import HomeActivity from '../Activity/HomeActivity';
-import QRScanActivity from '../Activity/QRcodeActivity';
+import QRScanActivity from "../Activity/QRScanActivity";
 import PromoActivity from '../Activity/PromoActivity';
+
 
 
 const HomeRoute = () => <HomeActivity/>;
