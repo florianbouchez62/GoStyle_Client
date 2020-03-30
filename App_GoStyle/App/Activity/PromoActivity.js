@@ -32,6 +32,18 @@ export default class App extends Component {
         );
       };
 
+      renderSeparator = () => {  
+        return (  
+            <View  
+                style={{  
+                    height: 1,  
+                    width: "100%",  
+                    backgroundColor: "#000",  
+                }}  
+            />  
+        );  
+    };  
+
       getListViewItem = (item) => {  
         Alert.alert(item.name, item.description);  
     }  
@@ -58,6 +70,7 @@ export default class App extends Component {
 
                         </Text>
               )}
+              ItemSeparatorComponent={this.renderSeparator} 
             />
           </View>
         </View>
@@ -74,7 +87,7 @@ export default class App extends Component {
         item: {  
             paddingTop: 20,
             textAlign: "center", 
-            height: 220,  
+            height: 300,  
             width: 300,
         },  
         titre: {
