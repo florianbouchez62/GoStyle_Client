@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 import React, { Component, useState } from 'react';
 import { StyleSheet, Text, View, FlatList, ScrollView, AppRegistry, Alert, Image } from 'react-native'; 
 import value from '../Activity/QRcodeActivity'
+=======
+import React, { Component } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+>>>>>>> 22cce36edaf6ba7f6b241ef7132ec2e1edfdc112
 
 export default class App extends Component {
 
