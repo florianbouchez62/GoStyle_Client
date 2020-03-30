@@ -15,6 +15,7 @@
     "react-native-camera": "^3.15.1",
     "react-native-camera-kit": "^8.0.4",
     "react-native-gesture-handler": "^1.5.3",
+    "react-native-image-slider-box": "^1.0.12",
     "react-native-link": "^4.1.0",
     "react-native-material-bottom-navigation": "^1.0.5",
     "react-native-paper": "^3.4.0",

@@ -1,4 +1,6 @@
 apply plugin: "com.android.application"
+apply from: '../node_modules/react-native-unimodules/gradle.groovy'
+includeUnimodulesProjects()
 
 import com.android.build.OutputFile
 
