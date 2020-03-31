@@ -1,0 +1,726 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App test against snapshot 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "flex": 1,
+        "overflow": "hidden",
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      Array [
+        Object {
+          "flex": 1,
+        },
+        Object {
+          "backgroundColor": "#f6f6f6",
+        },
+      ]
+    }
+  >
+    <View
+      accessibilityElementsHidden={false}
+      collapsable={false}
+      importantForAccessibility="auto"
+      pointerEvents="auto"
+      removeClippedSubviews={false}
+      style={
+        Object {
+          "bottom": 0,
+          "left": 0,
+          "opacity": 1,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "flex": 1,
+            "top": 0,
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#fff",
+              "flex": 1,
+              "justifyContent": "center",
+            }
+          }
+        >
+          <Text>
+            Home Screen
+          </Text>
+          <Text>
+            Welcome to Go Style !
+          </Text>
+        </View>
+      </View>
+    </View>
+  </View>
+  <View
+    onLayout={[Function]}
+    pointerEvents="none"
+    style={
+      Object {
+        "backgroundColor": "#fff",
+        "bottom": 0,
+        "elevation": 4,
+        "left": 0,
+        "position": null,
+        "right": 0,
+        "shadowColor": "#000000",
+        "shadowOffset": Object {
+          "height": 3,
+          "width": 0,
+        },
+        "shadowOpacity": 0.24,
+        "shadowRadius": 4,
+        "transform": Array [
+          Object {
+            "translateY": 0,
+          },
+        ],
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "#fff",
+          "overflow": "hidden",
+        }
+      }
+    >
+      <View
+        onLayout={[Function]}
+        pointerEvents="box-none"
+        style={
+          Object {
+            "flexDirection": "row",
+            "maxWidth": 504,
+            "paddingBottom": 0,
+            "paddingLeft": 0,
+            "paddingRight": 0,
+            "paddingTop": 0,
+            "width": "100%",
+          }
+        }
+      >
+        <View
+          accessibilityRole="button"
+          accessibilityStates={
+            Array [
+              "selected",
+            ]
+          }
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "flex": 1,
+              "paddingVertical": 6,
+            }
+          }
+        >
+          <View
+            pointerEvents="none"
+          >
+            <View
+              style={
+                Object {
+                  "alignSelf": "center",
+                  "height": 24,
+                  "marginHorizontal": 12,
+                  "marginTop": 2,
+                  "transform": Array [
+                    Object {
+                      "translateY": 0,
+                    },
+                  ],
+                  "width": 24,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "bottom": 0,
+                    "left": 0,
+                    "opacity": 1,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              >
+                <Text />
+              </View>
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "bottom": 0,
+                    "left": 0,
+                    "opacity": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              >
+                <Text />
+              </View>
+              <View
+                style={
+                  Array [
+                    Object {
+                      "left": 0,
+                      "position": "absolute",
+                      "top": -2,
+                    },
+                    Object {
+                      "right": -2,
+                    },
+                  ]
+                }
+              >
+                <Text
+                  numberOfLines={1}
+                  style={
+                    Object {
+                      "alignSelf": "flex-end",
+                      "backgroundColor": "#f50057",
+                      "borderRadius": 8,
+                      "color": "#ffffff",
+                      "fontFamily": "System",
+                      "fontSize": 8,
+                      "fontWeight": "400",
+                      "height": 16,
+                      "lineHeight": 16,
+                      "minWidth": 16,
+                      "opacity": 0,
+                      "overflow": "hidden",
+                      "paddingHorizontal": 4,
+                      "textAlign": "center",
+                      "textAlignVertical": "center",
+                    }
+                  }
+                />
+              </View>
+            </View>
+            <View
+              style={
+                Object {
+                  "height": 16,
+                  "paddingBottom": 2,
+                  "transform": Array [
+                    Object {
+                      "scale": 1,
+                    },
+                  ],
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "bottom": 0,
+                    "left": 0,
+                    "opacity": 1,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              >
+                <Text
+                  style={
+                    Array [
+                      Object {
+                        "color": "#000000",
+                        "fontFamily": "System",
+                        "fontWeight": "400",
+                        "textAlign": "left",
+                      },
+                      Array [
+                        Object {
+                          "backgroundColor": "transparent",
+                          "fontSize": 12,
+                          "textAlign": "center",
+                        },
+                        Object {
+                          "color": "#000000",
+                        },
+                      ],
+                    ]
+                  }
+                >
+                  Home
+                </Text>
+              </View>
+              <View
+                style={
+                  Object {
+                    "bottom": 0,
+                    "left": 0,
+                    "opacity": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              >
+                <Text
+                  style={
+                    Array [
+                      Object {
+                        "color": "#000000",
+                        "fontFamily": "System",
+                        "fontWeight": "400",
+                        "textAlign": "left",
+                      },
+                      Array [
+                        Object {
+                          "backgroundColor": "transparent",
+                          "fontSize": 12,
+                          "textAlign": "center",
+                        },
+                        Object {
+                          "color": "rgba(0, 0, 0, 0.5)",
+                        },
+                      ],
+                    ]
+                  }
+                >
+                  Home
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+        <View
+          accessibilityRole="button"
+          accessibilityStates={
+            Array [
+              "selected",
+            ]
+          }
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "flex": 1,
+              "paddingVertical": 6,
+            }
+          }
+        >
+          <View
+            pointerEvents="none"
+          >
+            <View
+              style={
+                Object {
+                  "alignSelf": "center",
+                  "height": 24,
+                  "marginHorizontal": 12,
+                  "marginTop": 2,
+                  "transform": Array [
+                    Object {
+                      "translateY": 0,
+                    },
+                  ],
+                  "width": 24,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "bottom": 0,
+                    "left": 0,
+                    "opacity": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              >
+                <Text />
+              </View>
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "bottom": 0,
+                    "left": 0,
+                    "opacity": 1,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              >
+                <Text />
+              </View>
+              <View
+                style={
+                  Array [
+                    Object {
+                      "left": 0,
+                      "position": "absolute",
+                      "top": -2,
+                    },
+                    Object {
+                      "right": -2,
+                    },
+                  ]
+                }
+              >
+                <Text
+                  numberOfLines={1}
+                  style={
+                    Object {
+                      "alignSelf": "flex-end",
+                      "backgroundColor": "#f50057",
+                      "borderRadius": 8,
+                      "color": "#ffffff",
+                      "fontFamily": "System",
+                      "fontSize": 8,
+                      "fontWeight": "400",
+                      "height": 16,
+                      "lineHeight": 16,
+                      "minWidth": 16,
+                      "opacity": 0,
+                      "overflow": "hidden",
+                      "paddingHorizontal": 4,
+                      "textAlign": "center",
+                      "textAlignVertical": "center",
+                    }
+                  }
+                />
+              </View>
+            </View>
+            <View
+              style={
+                Object {
+                  "height": 16,
+                  "paddingBottom": 2,
+                  "transform": Array [
+                    Object {
+                      "scale": 1,
+                    },
+                  ],
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "bottom": 0,
+                    "left": 0,
+                    "opacity": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              >
+                <Text
+                  style={
+                    Array [
+                      Object {
+                        "color": "#000000",
+                        "fontFamily": "System",
+                        "fontWeight": "400",
+                        "textAlign": "left",
+                      },
+                      Array [
+                        Object {
+                          "backgroundColor": "transparent",
+                          "fontSize": 12,
+                          "textAlign": "center",
+                        },
+                        Object {
+                          "color": "#000000",
+                        },
+                      ],
+                    ]
+                  }
+                >
+                  QR Scan
+                </Text>
+              </View>
+              <View
+                style={
+                  Object {
+                    "bottom": 0,
+                    "left": 0,
+                    "opacity": 1,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              >
+                <Text
+                  style={
+                    Array [
+                      Object {
+                        "color": "#000000",
+                        "fontFamily": "System",
+                        "fontWeight": "400",
+                        "textAlign": "left",
+                      },
+                      Array [
+                        Object {
+                          "backgroundColor": "transparent",
+                          "fontSize": 12,
+                          "textAlign": "center",
+                        },
+                        Object {
+                          "color": "rgba(0, 0, 0, 0.5)",
+                        },
+                      ],
+                    ]
+                  }
+                >
+                  QR Scan
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+        <View
+          accessibilityRole="button"
+          accessibilityStates={
+            Array [
+              "selected",
+            ]
+          }
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "flex": 1,
+              "paddingVertical": 6,
+            }
+          }
+        >
+          <View
+            pointerEvents="none"
+          >
+            <View
+              style={
+                Object {
+                  "alignSelf": "center",
+                  "height": 24,
+                  "marginHorizontal": 12,
+                  "marginTop": 2,
+                  "transform": Array [
+                    Object {
+                      "translateY": 0,
+                    },
+                  ],
+                  "width": 24,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "bottom": 0,
+                    "left": 0,
+                    "opacity": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              >
+                <Text />
+              </View>
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "bottom": 0,
+                    "left": 0,
+                    "opacity": 1,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              >
+                <Text />
+              </View>
+              <View
+                style={
+                  Array [
+                    Object {
+                      "left": 0,
+                      "position": "absolute",
+                      "top": -2,
+                    },
+                    Object {
+                      "right": -2,
+                    },
+                  ]
+                }
+              >
+                <Text
+                  numberOfLines={1}
+                  style={
+                    Object {
+                      "alignSelf": "flex-end",
+                      "backgroundColor": "#f50057",
+                      "borderRadius": 8,
+                      "color": "#ffffff",
+                      "fontFamily": "System",
+                      "fontSize": 8,
+                      "fontWeight": "400",
+                      "height": 16,
+                      "lineHeight": 16,
+                      "minWidth": 16,
+                      "opacity": 0,
+                      "overflow": "hidden",
+                      "paddingHorizontal": 4,
+                      "textAlign": "center",
+                      "textAlignVertical": "center",
+                    }
+                  }
+                />
+              </View>
+            </View>
+            <View
+              style={
+                Object {
+                  "height": 16,
+                  "paddingBottom": 2,
+                  "transform": Array [
+                    Object {
+                      "scale": 1,
+                    },
+                  ],
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "bottom": 0,
+                    "left": 0,
+                    "opacity": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              >
+                <Text
+                  style={
+                    Array [
+                      Object {
+                        "color": "#000000",
+                        "fontFamily": "System",
+                        "fontWeight": "400",
+                        "textAlign": "left",
+                      },
+                      Array [
+                        Object {
+                          "backgroundColor": "transparent",
+                          "fontSize": 12,
+                          "textAlign": "center",
+                        },
+                        Object {
+                          "color": "#000000",
+                        },
+                      ],
+                    ]
+                  }
+                >
+                  Promos
+                </Text>
+              </View>
+              <View
+                style={
+                  Object {
+                    "bottom": 0,
+                    "left": 0,
+                    "opacity": 1,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              >
+                <Text
+                  style={
+                    Array [
+                      Object {
+                        "color": "#000000",
+                        "fontFamily": "System",
+                        "fontWeight": "400",
+                        "textAlign": "left",
+                      },
+                      Array [
+                        Object {
+                          "backgroundColor": "transparent",
+                          "fontSize": 12,
+                          "textAlign": "center",
+                        },
+                        Object {
+                          "color": "rgba(0, 0, 0, 0.5)",
+                        },
+                      ],
+                    ]
+                  }
+                >
+                  Promos
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;
