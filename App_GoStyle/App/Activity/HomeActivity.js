@@ -23,11 +23,6 @@ export default class App extends Component {
       });
     });
   }
-  ListViewItemSeparator = () => {
-    return (
-      <View style={{ height: 0.2, width: '100%', backgroundColor: '#808080' }} />
-    );
-  };
 
 
 
@@ -36,12 +31,10 @@ export default class App extends Component {
         
     <View style={styles.container}> 
       <Text>Welcome</Text> 
-      <Image style = {styles.img} source = {{uri: 'https://raw.githubusercontent.com/florianbouchez62/Gostyle_Api/develop/REST_Server/api/static/logo.png'}}/>
       <Text style={styles.titre}>Dernière promotion scanné :</Text>       
       <View>
         <FlatList
           data={this.state.FlatListItems}
-          ItemSeparatorComponent={this.ListViewItemSeparator}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => (
                 <Text style = {styles.item}>
@@ -50,7 +43,7 @@ export default class App extends Component {
                     <Text style = {styles.titreh4}>Scanné le : </Text><Text style = {styles.libelle}>{item.scan_date}</Text>{'\n'}
                     <Text style = {styles.titreh4}>Remise : </Text><Text style = {styles.libelle}>{item.percentage} %</Text>
 
-                    </Text>
+                </Text>
           )}
         />
       </View>
@@ -69,10 +62,8 @@ const styles = StyleSheet.create({
     item: {  
         paddingTop: 20,
         textAlign: 'center', 
-        height: 220,  
+        height: 250,  
         width: 300,
-        justifyContent: 'center',
-        alignItems: 'center',
     },  
     titre: {
       marginTop: 100,
@@ -83,10 +74,8 @@ const styles = StyleSheet.create({
       color: 'black'
    },
     img: {
-      width: 250, 
+      width: 300, 
       height: 250,
-      justifyContent: 'center',
-      alignItems: 'center',
    },
    titreh4: {
      fontWeight: 'bold'

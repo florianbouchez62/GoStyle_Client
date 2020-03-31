@@ -60,7 +60,7 @@ export default class QRScanActivity extends React.Component {
                 const promotion = this.convertToPromotion(json);
                 this.insertDb(promotion, apiPath);
                 alert('La promotion ' + promotion.name + " : " + promotion.description + " a bien été recupérée.");
-
+                this.setState({ refresh: !this.state.refresh })
             } else {
                 console.log(response.status);
                 alert('Impossible de récupérer la promotion');
