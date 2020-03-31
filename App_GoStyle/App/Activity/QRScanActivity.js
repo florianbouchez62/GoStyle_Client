@@ -56,7 +56,7 @@ export default class QRScanActivity extends React.Component {
             if(response.status >= 200 && response.status < 300){
                 const json = await response.json();
                 const promotion = this.convertToPromotion(json);
-                this.insertDb(promotion, apiPath);
+                QRScanActivity.insertDb(promotion, apiPath, db);
                 alert('La promotion ' + promotion.name + " : " + promotion.description + " a bien été recupérée.");
 
             } else {
@@ -78,7 +78,7 @@ export default class QRScanActivity extends React.Component {
         }
     }
 
-    insertDb(promotion, apiPath){
+      static insertDb(promotion, apiPath, db){
         const current_date = new Date();
         const string_date = current_date.getFullYear() + '-' + current_date.getMonth() + '-' + current_date.getDay();
         let queryArgs = [];
@@ -135,4 +135,8 @@ export default class QRScanActivity extends React.Component {
             </View>
         );
     }
+
+
+
 }
+

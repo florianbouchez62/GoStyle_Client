@@ -4,7 +4,8 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "web": "expo start --web",
-    "postinstall": "jetify"
+    "postinstall": "jetify",
+    "test": "jest"
   },
   "dependencies": {
     "expo": "~36.0.0",
@@ -12,7 +13,10 @@
     "expo-camera": "^8.0.0",
     "expo-permissions": "^8.0.0",
     "expo-sqlite": "^8.1.0",
+    "jest-expo": "^36.0.1",
+    "jest-fetch-mock": "^3.0.3",
     "link": "^0.1.5",
+    "node-fetch": "^2.6.0",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
     "react-native": "~0.61.4",
@@ -38,11 +42,16 @@
   "devDependencies": {
     "@babel/core": "^7.0.0",
     "babel-jest": "~24.9.0",
+    "babel-preset-expo": "~8.0.0",
     "jest": "~24.9.0",
     "jetifier": "~1.6.4",
     "metro-react-native-babel-preset": "~0.56.0",
-    "react-test-renderer": "~16.9.0",
-    "babel-preset-expo": "~8.0.0"
+    "react-test-renderer": "^16.9.0"
+  },
+  "jest": {
+    "preset": "jest-expo",
+    "automock": false,
+    "setupFiles": ["./setupJest.js"]
   },
   "private": true
 }
