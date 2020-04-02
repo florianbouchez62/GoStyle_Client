@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, FlatList, Alert, Image, Button, ScrollView } from 'react-native';
-import * as SQLite from "expo-sqlite";
-
-const db = SQLite.openDatabase("local.db");
+import db from '../Database/Database';
 
 const _renderFooter = () => (
   <View>
@@ -16,7 +14,6 @@ const _renderFooter = () => (
 
 export default class App extends Component {
 
-
     constructor(props) {
         super(props);
 
@@ -25,7 +22,7 @@ export default class App extends Component {
         };
 
         db.transaction(tx => {
-          tx.executeSql('SELECT * FROM Promotion', [], (tx, results) => {
+          tx.executeSql('SELECT * FROM promotions', [], (tx, results) => {
             var temp = [];
             for (let i = 0; i < results.rows.length; ++i) {
               temp.push(results.rows.item(i));
@@ -61,7 +58,7 @@ export default class App extends Component {
 
       refreshFlatList = () => {
         db.transaction(tx => {
-          tx.executeSql('SELECT * FROM Promotion', [], (tx, results) => {
+          tx.executeSql('SELECT * FROM Promotions', [], (tx, results) => {
             var temp = [];
             for (let i = 0; i < results.rows.length; ++i) {
               temp.push(results.rows.item(i));
@@ -161,4 +158,3 @@ export default class App extends Component {
          fontFamily: 'Roboto',
        }
     })
- 
