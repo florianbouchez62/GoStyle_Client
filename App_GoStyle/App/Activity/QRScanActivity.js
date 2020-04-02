@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, Button } from 'react-native';
 import * as Permissions from 'expo-permissions';
 import {API_URL, API_PORT} from 'react-native-dotenv';
 import {Promotion} from "../models/Promotion";
-import db from '../Database/Database';
+import * as DbHandler from '../Database/DatabaseHandler';
 
 import { BarCodeScanner } from 'expo-barcode-scanner';
 
@@ -80,24 +80,7 @@ export default class QRScanActivity extends React.Component {
         const current_date = new Date();
         const string_date = current_date.getFullYear() + '-' + current_date.getMonth() + '-' + current_date.getDay();
         let queryArgs = [];
-        db.transaction(
-            tx => {
-
-                tx.executeSql(
-                    "INSERT INTO promotions (name, description, start_date, end_date, scan_date, percentage, image, api_path) VALUES (?,?,?,?,?,?,?,?)",
-                    [promotion._name, promotion._description, promotion._start, promotion._end, string_date, promotion._percentage, promotion._image, apiPath],
-                    (tx, results) => {console.log("Row promotions inserted successfully: " + results);},
-                    (tx, error) => {console.log("Could not insert row promotions: " + error);}
-                    );
-
-            },
-            error => {
-                console.log("Error on transaction (insert row promotions): " + error);
-            },
-            () => {
-                console.log("Transaction done (insert row promotions) successfully !");
-            }
-        );
+        DbHandler.insertPromotion(promotion, apiPath, string_date);
     }
 
     render() {

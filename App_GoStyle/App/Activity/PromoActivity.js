@@ -21,17 +21,7 @@ export default class App extends Component {
           FlatListItems: [],
         };
 
-        db.transaction(tx => {
-          tx.executeSql('SELECT * FROM promotions', [], (tx, results) => {
-            var temp = [];
-            for (let i = 0; i < results.rows.length; ++i) {
-              temp.push(results.rows.item(i));
-            }
-            this.setState({
-              FlatListItems: temp,
-            });
-          });
-        });
+        this.refreshFlatList();
       }
       
       ListViewItemSeparator = () => {
@@ -54,7 +44,7 @@ export default class App extends Component {
 
       getListViewItem = (item) => {  
         Alert.alert(item.name, item.description);  
-      }
+      };
 
       refreshFlatList = () => {
         db.transaction(tx => {
@@ -68,11 +58,7 @@ export default class App extends Component {
             });
           });
         });
-      }
-
-      
-
-      
+      };
 
       render() {
         
@@ -154,6 +140,6 @@ export default class App extends Component {
        },
        nameItem: {
          fontWeight: 'bold',
-         fontSize: 14
+         fontSize: 14,
        }
-    })
+    });
