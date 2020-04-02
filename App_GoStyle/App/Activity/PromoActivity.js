@@ -154,7 +154,6 @@ export default class App extends Component {
        },
        nameItem: {
          fontWeight: 'bold',
-         fontSize: 14,
-         fontFamily: 'Roboto',
+         fontSize: 14
        }
     })
