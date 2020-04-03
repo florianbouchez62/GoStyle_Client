@@ -27,16 +27,22 @@ export default class QRScanActivity extends React.Component {
     };
 
     handleBarCodeScanned = ({ type, data }) => {
-        const {alreadyScanned} = this.state;
-        if(!alreadyScanned) this.setState({alreadyScanned: true});
-        this.setState({ scanned: true });
-        //Permet de s'assurer que le code scanné est bien un QRCode
-        const qrData = JSON.parse(data);
-        if(type === "org.iso.QRCode" || type === 256){
-            this.getPromotionFromServer(qrData.url, qrData.token);
-        } else {
-            alert(`Le QRCode est invalide.`);
+        try{
+            const {alreadyScanned} = this.state;
+            if(!alreadyScanned) this.setState({alreadyScanned: true});
+            this.setState({ scanned: true });
+            //Permet de s'assurer que le code scanné est bien un QRCode
+            const qrData = JSON.parse(data);
+            console.log('DATA=' + data);
+            if(type === "org.iso.QRCode" || type === 256){
+                this.getPromotionFromServer(qrData.url, qrData.token);
+            } else {
+                alert('Le QRCode est invalide');
+            }
+        } catch {
+            alert('Le QRCode est invalide');
         }
+
     };
 
     getPromotionFromServer(apiPath, token){
@@ -69,7 +75,6 @@ export default class QRScanActivity extends React.Component {
     }
 
     processInsertion(nbPromotions, promotion, apiPath){
-        console.log("TYPE=" + typeof nbPromotions);
         if(nbPromotions === 0){
             const current_date = new Date();
             const string_date = current_date.getFullYear() + '-' + current_date.getMonth() + '-' + current_date.getDay();
