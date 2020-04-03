@@ -3,11 +3,10 @@ import { Text, View, StyleSheet, Button } from 'react-native';
 import * as Permissions from 'expo-permissions';
 import {API_URL, API_PORT} from 'react-native-dotenv';
 import {Promotion} from "../models/Promotion";
-import * as SQLite from "expo-sqlite";
-
-const db = SQLite.openDatabase("local.db");
+import * as DbHandler from '../Database/DatabaseHandler';
 
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import {Alert} from "react-native-web";
 
 export default class QRScanActivity extends React.Component {
     state = {
@@ -28,22 +27,26 @@ export default class QRScanActivity extends React.Component {
     };
 
     handleBarCodeScanned = ({ type, data }) => {
-        const {alreadyScanned} = this.state;
-        if(!alreadyScanned) this.setState({alreadyScanned: true});
-        this.setState({ scanned: true });
-        //Permet de s'assurer que le code scanné est bien un QRCode
-        const qrData = JSON.parse(data);
-        if(type === "org.iso.QRCode" || type === 256){
-            this.getPromotionFromServer(qrData.url, qrData.token);
-        } else {
-            alert(`Le QRCode est invalide.`);
+        try{
+            const {alreadyScanned} = this.state;
+            if(!alreadyScanned) this.setState({alreadyScanned: true});
+            this.setState({ scanned: true });
+            //Permet de s'assurer que le code scanné est bien un QRCode
+            const qrData = JSON.parse(data);
+            console.log('DATA=' + data);
+            if(type === "org.iso.QRCode" || type === 256){
+                this.getPromotionFromServer(qrData.url, qrData.token);
+            } else {
+                alert('Le QRCode est invalide');
+            }
+        } catch {
+            alert('Le QRCode est invalide');
         }
+
     };
 
     getPromotionFromServer(apiPath, token){
         const requestUrl = 'http://' + API_URL + ':' + API_PORT + apiPath;
-        let promotion = null;
-
         const request = async() => {
             const reqHeaders = new Headers();
             reqHeaders.append("Authorization", ("token " + token));
@@ -56,9 +59,12 @@ export default class QRScanActivity extends React.Component {
             if(response.status >= 200 && response.status < 300){
                 const json = await response.json();
                 const promotion = this.convertToPromotion(json);
-                QRScanActivity.insertDb(promotion, apiPath, db);
-                alert('La promotion ' + promotion.name + " : " + promotion.description + " a bien été recupérée.");
-
+                let nbPromotions = -1;
+                await DbHandler.findPromotionByPath(apiPath).then(function(results) {
+                    nbPromotions = results;
+                });
+                this.processInsertion(nbPromotions, promotion, apiPath);
+                this.setState({ refresh: !this.state.refresh })
             } else {
                 console.log(response.status);
                 alert('Impossible de récupérer la promotion');
@@ -66,6 +72,17 @@ export default class QRScanActivity extends React.Component {
         };
 
         request().then();
+    }
+
+    processInsertion(nbPromotions, promotion, apiPath){
+        if(nbPromotions === 0){
+            const current_date = new Date();
+            const string_date = current_date.getFullYear() + '-' + current_date.getMonth() + '-' + current_date.getDay();
+            DbHandler.insertPromotion(promotion, apiPath, string_date);
+            alert("Le code " + promotion.name + " ayant pour description : " + promotion.description + " a bien été recupéré.");
+        } else {
+            alert("La promotion associé au QRCode a déjà été récupérée");
+        }
     }
 
     convertToPromotion(json){
@@ -76,30 +93,6 @@ export default class QRScanActivity extends React.Component {
             alert('Impossible de créer la promotion');
             return null;
         }
-    }
-
-      static insertDb(promotion, apiPath, db){
-        const current_date = new Date();
-        const string_date = current_date.getFullYear() + '-' + current_date.getMonth() + '-' + current_date.getDay();
-        let queryArgs = [];
-        db.transaction(
-            tx => {
-
-                tx.executeSql(
-                    "INSERT INTO Promotion (name, description, start_date, end_date, scan_date, percentage, image, api_path) VALUES (?,?,?,?,?,?,?,?)",
-                    [promotion._name, promotion._description, promotion._start, promotion._end, string_date, promotion._percentage, promotion._image, apiPath],
-                    (tx, results) => {console.log("Row Promotion inserted successfully: " + results);},
-                    (tx, error) => {console.log("Could not insert row Promotion: " + error);}
-                    );
-
-            },
-            error => {
-                console.log("Error on transaction (insert row Promotion): " + error);
-            },
-            () => {
-                console.log("Transaction done (insert row Promotion) successfully !");
-            }
-        );
     }
 
     render() {
