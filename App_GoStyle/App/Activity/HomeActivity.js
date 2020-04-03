@@ -12,7 +12,7 @@ export default class App extends Component {
       FlatListItems: [],
     };
     db.transaction(tx => {
-      tx.executeSql('SELECT * FROM Promotion ORDER BY scan_date LIMIT 1', [], (tx, results) => {
+      tx.executeSql('SELECT * FROM promotions ORDER BY scan_date LIMIT 1', [], (tx, results) => {
         var temp = [];
         for (let i = 0; i < results.rows.length; ++i) {
           temp.push(results.rows.item(i));
