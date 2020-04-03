@@ -6,6 +6,7 @@ import {Promotion} from "../models/Promotion";
 import * as DbHandler from '../Database/DatabaseHandler';
 
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import {Alert} from "react-native-web";
 
 export default class QRScanActivity extends React.Component {
     state = {
@@ -40,8 +41,6 @@ export default class QRScanActivity extends React.Component {
 
     getPromotionFromServer(apiPath, token){
         const requestUrl = 'http://' + API_URL + ':' + API_PORT + apiPath;
-        let promotion = null;
-
         const request = async() => {
             const reqHeaders = new Headers();
             reqHeaders.append("Authorization", ("token " + token));
@@ -54,8 +53,11 @@ export default class QRScanActivity extends React.Component {
             if(response.status >= 200 && response.status < 300){
                 const json = await response.json();
                 const promotion = this.convertToPromotion(json);
-                this.insertDb(promotion, apiPath);
-                alert('La promotion ' + promotion.name + " : " + promotion.description + " a bien été recupérée.");
+                let nbPromotions = -1;
+                await DbHandler.findPromotionByPath(apiPath).then(function(results) {
+                    nbPromotions = results;
+                });
+                this.processInsertion(nbPromotions, promotion, apiPath);
                 this.setState({ refresh: !this.state.refresh })
             } else {
                 console.log(response.status);
@@ -66,6 +68,18 @@ export default class QRScanActivity extends React.Component {
         request().then();
     }
 
+    processInsertion(nbPromotions, promotion, apiPath){
+        console.log("TYPE=" + typeof nbPromotions);
+        if(nbPromotions === 0){
+            const current_date = new Date();
+            const string_date = current_date.getFullYear() + '-' + current_date.getMonth() + '-' + current_date.getDay();
+            DbHandler.insertPromotion(promotion, apiPath, string_date);
+            alert("Le code " + promotion.name + " ayant pour description : " + promotion.description + " a bien été recupéré.");
+        } else {
+            alert("La promotion associé au QRCode a déjà été récupérée");
+        }
+    }
+
     convertToPromotion(json){
         try{
             return new Promotion(json.id, json.name, json.description, json.start_date, json.end_date,
@@ -74,13 +88,6 @@ export default class QRScanActivity extends React.Component {
             alert('Impossible de créer la promotion');
             return null;
         }
-    }
-
-    insertDb(promotion, apiPath){
-        const current_date = new Date();
-        const string_date = current_date.getFullYear() + '-' + current_date.getMonth() + '-' + current_date.getDay();
-        let queryArgs = [];
-        DbHandler.insertPromotion(promotion, apiPath, string_date);
     }
 
     render() {

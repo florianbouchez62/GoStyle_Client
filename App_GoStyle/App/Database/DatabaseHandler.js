@@ -57,3 +57,19 @@ export function insertPromotion(promotion, apiPath, currentDate){
         }
     );
 }
+
+export function findPromotionByPath(apiPath){
+    return new Promise(function(resolve, reject) {
+        db.transaction(
+            tx => {
+                tx.executeSql("select count(*) as 'exists' from promotions where api_path = ?",
+                    [apiPath],
+                    (tx, result) => { resolve(parseInt(JSON.stringify(result.rows.item(0).exists))); },
+                    (tx, error) => {console.log("Could not select nb of all promotions by path: " + error);}
+                );
+            },
+            error => { console.log("Error on transaction (select count promotion by path): " + error);},
+            () => {console.log("Transaction done (select count promotion by path) successfully !");}
+        );
+    });
+}
