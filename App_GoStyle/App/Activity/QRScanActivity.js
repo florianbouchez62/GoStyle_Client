@@ -128,4 +128,8 @@ export default class QRScanActivity extends React.Component {
             </View>
         );
     }
+
+
+
 }
+

@@ -69,6 +69,12 @@ API_PORT=8000
   - The virtual device launches itself.
   - Have fun !
   
+### Run test
+  - Open the console :
+    - In `GoStyle_Client/App_GoStyle/App` folder execute  `npm test`
+    - Have fun !
+  
+  
 ## License
 
 > [@florianbouchez62](https://github.com/florianbouchez62) &nbsp;&middot;&nbsp;
