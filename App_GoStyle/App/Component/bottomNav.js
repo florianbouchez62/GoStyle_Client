@@ -1,11 +1,13 @@
-import * as React from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, {Component} from 'react';
+import { StyleSheet, View, SafeAreaView } from 'react-native';
 import { BottomNavigation, Text} from 'react-native-paper';
 import HomeActivity from '../Activity/HomeActivity';
 import QRScanActivity from "../Activity/QRScanActivity";
 import PromoActivity from '../Activity/PromoActivity';
-
-
+import {createMaterialBottomTabNavigator} from 'react-navigation-material-bottom-tabs';
+import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {createAppContainer} from "react-navigation";
 
 const HomeRoute = () => <HomeActivity/>;
 
@@ -13,42 +15,33 @@ const QRScanRoute = () => <QRScanActivity/>;
 
 const PromoRoute = () => <PromoActivity/>;
 
-export default class bottomBar extends React.Component {
-
-  state = {
-    index: 0,
-    routes: [
-      { key: 'home', title: 'Home', icon: 'home'},
-      { key: 'qrscan', title: 'QR Scan', icon: 'qrcode-scan'},
-      { key: 'promo', title: 'Promos' , icon: 'sale'},
-    ],
-  };
-
-  _handleIndexChange = index => this.setState({ index });
-
-  _renderScene = BottomNavigation.SceneMap({
-    home : HomeRoute,
-    qrscan: QRScanRoute,
-    promo: PromoRoute,
-  });
-
-  render() {
-    return (
-      <BottomNavigation
-        navigationState={this.state}
-        onIndexChange={this._handleIndexChange}
-        renderScene={this._renderScene}
-        barStyle={{ backgroundColor: '#fff' }}
-    />
-    );
+const TabNav = createAppContainer(createMaterialTopTabNavigator({
+  Home:{screen:HomeRoute, navigationOptions:{tabBarLabel:'Accueil', tabBarIcon:({tintColor})=>(<Icon name='home' color={tintColor} size={24}/>)}},
+  QRScan:{screen:QRScanRoute, navigationOptions:{tabBarLabel:'QR Scan', tabBarIcon:({tintColor})=>(<Icon name='qrcode' color={tintColor} size={24}/>)}},
+  Promo:{screen:PromoRoute, navigationOptions:{tabBarLabel:'Promos', tabBarIcon:({tintColor})=>(<Icon name='sale' color={tintColor} size={24}/>)}}
+  },{
+  initialRouteName:'Home',
+  order:['Home','QRScan','Promo'],
+  tabBarPosition:'bottom',
+  tabBarOptions:{
+    activeTintColor:'blue',
+    inactiveTintColor:'grey',
+    style:{
+      backgroundColor: '#f2f2f2'
+    },
+    indicatorStyle:{
+      height:0
+    },
+    showIcon:true
   }
 
-}
-const style = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+}));
+export default class Navigation extends Component{
+  render(){
+    return(
+        <SafeAreaView style={{flex:1, backgroundColor: '#f2f2f2'}}>
+          <TabNav/>
+        </SafeAreaView>
+    )
+  } }
+

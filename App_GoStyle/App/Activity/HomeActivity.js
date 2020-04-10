@@ -6,10 +6,7 @@ import {dummyData} from '../Data/Data'
 
 export default function App () {
 
-  
-  
-  
-    return (
+  return (
       <View>
         <Image
           style={styles.image}
@@ -18,7 +15,6 @@ export default function App () {
         <PromosScan/>
         
       </View>
-      
     );
 }
 const styles = StyleSheet.create({
@@ -37,3 +33,4 @@ const styles = StyleSheet.create({
     resizeMode: 'cover'
   }
 });
+
