@@ -6,6 +6,7 @@ import * as DbHandler from './Database/DatabaseHandler';
 export default class App extends React.Component {
 
   componentDidMount() {
+
     //Drop a enlever, écrit pour tests
     DbHandler.dropTablePromotions();
     DbHandler.createTablePromotions();
@@ -13,6 +14,7 @@ export default class App extends React.Component {
 
   render() {
     return (
+      
         <Navigation/>
     )
   }
