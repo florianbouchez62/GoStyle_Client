@@ -42,6 +42,7 @@ export default class QRScanActivity extends React.Component {
 
     getPromotionFromServer(apiPath, token){
         const requestUrl = 'http://' + API_URL + ':' + API_PORT + apiPath;
+        console.log(requestUrl)
         let promotion = null;
 
         const request = async() => {

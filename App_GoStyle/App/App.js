@@ -9,9 +9,10 @@ const db = SQLite.openDatabase("local.db");
 export default class App extends React.Component {
 
   componentDidMount() {
+    console.log("test")
     db.transaction(tx => {
       //A ENLEVER : La table se vide automatiquement pour tester
-      tx.executeSql("DROP TABLE IF EXISTS Promotion");
+      //tx.executeSql("DROP TABLE IF EXISTS Promotion");
       tx.executeSql(
           "CREATE TABLE IF NOT EXISTS Promotion (" +
           "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
