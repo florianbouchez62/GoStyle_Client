@@ -87,7 +87,7 @@ export default class QRScanActivity extends React.Component {
 
     convertToPromotion(json){
         try{
-            return new Promotion(json.id, json.name, json.description, json.start_date, json.end_date,
+            return new Promotion(json.id, json.code, json.description, json.start_date, json.end_date,
                 json.percentage, json.base64_image);
         } catch(e){
             alert('Impossible de créer la promotion');
