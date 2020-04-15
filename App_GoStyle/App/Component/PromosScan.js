@@ -28,13 +28,15 @@ export default class PromoScan extends Component {
         });
       };
 
+
+
       render() {
         
         this.refreshFlatList();
 
         return (
   
-        <View style={styles.container}>
+        /*<View style={styles.container}>
           <Text style={styles.titre}>Dernière promotion scanée</Text>
                    
           <View>
@@ -54,7 +56,10 @@ export default class PromoScan extends Component {
               )}
             />
           </View>     
-        </View>
+        </View>*/
+        <ScrollView style={styles.scrollView}>
+                <Text>{this.state.FlatListItems[0] !== undefined ? this.state.FlatListItems[0].name : "existe pas"}</Text>
+        </ScrollView>
         );
       }
     }
@@ -69,7 +74,10 @@ export default class PromoScan extends Component {
     alignItems: 'center',
     backgroundColor: '#fff'
     },  
-        
+    scrollView: {
+      backgroundColor: 'pink',
+      marginHorizontal: 20,
+    },  
     item: {  
         paddingTop: 20,
         textAlign: "center", 
