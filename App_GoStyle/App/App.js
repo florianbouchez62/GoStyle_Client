@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, ScrollView} from 'react-native';
 import Navigation from './Component/bottomNav'
 import * as DbHandler from './Database/DatabaseHandler';
 
@@ -8,7 +8,7 @@ export default class App extends React.Component {
   componentDidMount() {
 
     //Drop a enlever, écrit pour tests
-    DbHandler.dropTablePromotions();
+    //DbHandler.dropTablePromotions();
     DbHandler.createTablePromotions();
   }
 
