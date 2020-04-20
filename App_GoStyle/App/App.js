@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, ScrollView} from 'react-native';
 import Navigation from './Component/bottomNav'
 import * as DbHandler from './Database/DatabaseHandler';
 

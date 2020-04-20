@@ -62,17 +62,12 @@ export default class App extends Component {
 
       render() {
         
+        this.refreshFlatList()
         return (
             
         <View style={styles.container}> 
           <Text style={styles.titre}>Promotions :</Text>
           <Text style={styles.info}>(cliquer sur une promotion pour plus de détails){'\n'}</Text>         
-          <Button
-            onPress={this.refreshFlatList}
-            title="Actualiser"
-            color="#000000"
-            accessibilityLabel="Actualisation de la liste des promotions"
-          />
           <View>
             <FlatList
               style={styles.FlatList}

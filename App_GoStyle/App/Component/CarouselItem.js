@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     cardView: {
         flex:1,
         width: width - 20,
-        height: height / 3,
+        height: height / 4,
         backgroundColor: 'white',
         margin: 10,
         borderRadius: 10,
@@ -40,25 +40,21 @@ const styles = StyleSheet.create({
 
     image: {
         width: width - 20,
-        height: height /3,
+        height: height /4,
         borderRadius: 10
     },
 
     itemTitle: {
-        color: 'black',
-        fontSize: 22,
-        shadowColor: '#000',
-        shadowRadius: {width: 0.8, height: 0.8},
-        shadowOpacity: 1,
-        shadowRadius: 3,
-        marginBottom: 5,
+        color: 'tomato',
+        fontSize: 25,
         fontWeight: "bold",
         elevation: 5 
     },
 
     itemDescription: {
         color: 'black',
-        fontSize: 12,
+        fontSize: 20,
+        fontWeight: "bold",
         shadowColor: '#000',
         shadowOffset: {width: 0.8, height: 0.8},
         shadowOpacity: 1,
