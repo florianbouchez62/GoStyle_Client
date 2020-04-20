@@ -8,7 +8,7 @@ export default class App extends React.Component {
   componentDidMount() {
 
     //Drop a enlever, écrit pour tests
-    //DbHandler.dropTablePromotions();
+    DbHandler.dropTablePromotions();
     DbHandler.createTablePromotions();
   }
 

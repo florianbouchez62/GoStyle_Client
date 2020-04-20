@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, FlatList, Alert, Image, Button, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 import db from '../Database/Database';
+import moment from "moment";
 
 export default class PromoScan extends Component {
 
@@ -27,89 +28,75 @@ export default class PromoScan extends Component {
           });
         });
       };
-
-
-
+      
       render() {
         
         this.refreshFlatList();
-
-        return (
-  
-        /*<View style={styles.container}>
-          <Text style={styles.titre}>Dernière promotion scanée</Text>
-                   
-          <View>
-            <FlatList
-              style={styles.FlatList}
-              extraData = {this.state.FlatListItems.refresh}
-              data={this.state.FlatListItems}
-              refreshing={this.state.refreshing}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={({ item }) => (
-                    <Text style = {styles.item}>
-                        <Text style = {styles.nameItem}>{item.name}</Text>{'\n'}
-                        <Image style = {styles.img} source = {{uri: 'data:image/png;base64,' + item.image}}/>{'\n'}{'\n'}{'\n'}{'\n'}
-                        <Text style = {styles.titreh4}>Date de scan : </Text><Text style = {styles.libelle}>{item.scan_date}</Text>{'\n'}
-                        <Text style = {styles.titreh4}>Remise : </Text><Text style = {styles.libelle}>{item.percentage} %</Text>
-                    </Text>
-              )}
-            />
-          </View>     
-        </View>*/
-        <ScrollView style={styles.scrollView}>
-                <Text>{this.state.FlatListItems[0] !== undefined ? this.state.FlatListItems[0].name : "existe pas"}</Text>
-        </ScrollView>
-        );
+        
+        if (this.state.FlatListItems[0] !== undefined){
+            return(
+                <ScrollView style={styles.scrollView}>
+                  <View style = {styles.container}>
+                    
+                    <Text style = {styles.nameItem}>{this.state.FlatListItems[0].name}</Text>
+                    <Image style = {styles.img} source = {{uri: 'data:image/png;base64,' + this.state.FlatListItems[0].image}}/>
+                    <Text style = {styles.text1}>{this.state.FlatListItems[0].description}</Text>
+                    <Text style = {styles.text2}>Se termine le : {this.state.FlatListItems[0].end_date}</Text>
+                  </View>
+                </ScrollView>
+            );  
+        } else {
+            return(
+								<Text>Pas de promo</Text>
+            )
+        }
       }
     }
-
     const styles = StyleSheet.create({  
+
+      container: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'white',
+        margin: 10,
+        borderRadius: 10,
+        shadowColor: '#000',
+        shadowOffset: {width: 0.5, height: 0.5},
+        shadowOpacity: 0.5,
+        shadowRadius: 3,
+        elevation: 5
+      },
       FlatList: { 
         marginTop: 10,
       },
-
-    container: {   
-    marginTop: 20,
-    alignItems: 'center',
-    backgroundColor: '#fff'
-    },  
-    scrollView: {
-      backgroundColor: 'pink',
-      marginHorizontal: 20,
-    },  
-    item: {  
-        paddingTop: 20,
-        textAlign: "center", 
-        height: 250,  
-        width: 300,
-        backgroundColor: '#F3F4F4',
-        elevation: 2,
-        borderRadius: 20,
-    },  
-    titre: {
-        marginTop: 10,
+      scrollView: {
+        marginHorizontal: 40,
+        marginBottom: 20
+      }, 
+      title: {
+        marginTop: 5,
+        fontSize: 35,
+        fontWeight: 'bold',
+      },
+      img: {
+        width: 100, 
+        height: 100,
+        alignItems: 'center'
+      },
+      nameItem: {
+        textAlign: 'center',
+        fontWeight: 'bold',
         fontSize: 30,
+      },
+      text1: {
         fontWeight: 'bold',
-    },
-    info: {
-        fontSize: 12,
-        fontStyle: 'italic',
-    },
-    libelle: {
-        color: 'black'
-    },
-    img: {
-        width: 70, 
-        height: 70,
-    },
-    titreh4: {
-        fontWeight: 'bold'
-    },
-    nameItem: {
+        fontSize: 20,
+      },
+      text2: {
         fontWeight: 'bold',
-        fontSize: 14,
-    }
+        fontSize: 20,
+        marginBottom: 10
+      }
     });
 
 
