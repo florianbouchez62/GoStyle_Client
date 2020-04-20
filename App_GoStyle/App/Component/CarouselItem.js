@@ -55,11 +55,6 @@ const styles = StyleSheet.create({
         color: 'black',
         fontSize: 20,
         fontWeight: "bold",
-        shadowColor: '#000',
-        shadowOffset: {width: 0.8, height: 0.8},
-        shadowOpacity: 1,
-        shadowRadius: 3,
-        elevation: 5  
     }
 })
 

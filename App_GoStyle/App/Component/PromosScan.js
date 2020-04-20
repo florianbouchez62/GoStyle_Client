@@ -35,7 +35,7 @@ export default class PromoScan extends Component {
         
         if (this.state.FlatListItems[0] !== undefined){
             return(
-                <ScrollView style={styles.scrollView}>
+                //<ScrollView style={styles.scrollView}>
                   <View style = {styles.container}>
                     
                     <Text style = {styles.nameItem}>{this.state.FlatListItems[0].name}</Text>
@@ -43,7 +43,7 @@ export default class PromoScan extends Component {
                     <Text style = {styles.text1}>{this.state.FlatListItems[0].description}</Text>
                     <Text style = {styles.text2}>Se termine le : {this.state.FlatListItems[0].end_date}</Text>
                   </View>
-                </ScrollView>
+                //</ScrollView>
             );  
         } else {
             return(

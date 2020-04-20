@@ -8,18 +8,17 @@ export default function App () {
 
   return (
       <View style= {styles.container}>
+        <ScrollView style={styles.scrollView}>
+          <Image
+            style={styles.image}
+            source={require('../assets/GoStyleLog.png')}/>
+          <Text style= {styles.title1}>Promos en cours</Text>
+          <Carousel data  = {dummyData}/>
+          <Text style = {styles.title2}>Dernière Promo Scanée</Text>
+          <PromosScan/>
+          </ScrollView>
+        </View>
       
-        <Image
-          style={styles.image}
-          source={require('../assets/GoStyleLog.png')}/>
-        
-        <Text style= {styles.title1}>Promos en cours</Text>
-          
-        <Carousel data  = {dummyData}/>
-        <Text style = {styles.title2}>Dernière Promo Scanée</Text>
-        <PromosScan/>
-        
-      </View>
     );
 }
 const styles = StyleSheet.create({
@@ -28,8 +27,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'tomato'
   },
+  
   image: {
-    
     width: 'auto',
     height: 100,
     marginTop: 25,
