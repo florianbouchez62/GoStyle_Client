@@ -34,16 +34,21 @@ export default class PromoScan extends Component {
         this.refreshFlatList();
         
         if (this.state.FlatListItems[0] !== undefined){
+            const end_date_format = new Date(this.state.FlatListItems[0].end_date);
             return(
-                <ScrollView style={styles.scrollView}>
+                //<ScrollView style={styles.scrollView}>
                   <View style = {styles.container}>
                     
                     <Text style = {styles.nameItem}>{this.state.FlatListItems[0].name}</Text>
                     <Image style = {styles.img} source = {{uri: 'data:image/png;base64,' + this.state.FlatListItems[0].image}}/>
                     <Text style = {styles.text1}>{this.state.FlatListItems[0].description}</Text>
-                    <Text style = {styles.text2}>Se termine le : {this.state.FlatListItems[0].end_date}</Text>
+                    <Text style = {styles.text2}>
+                        Se termine le : {('0' + end_date_format.getDate()).slice(-2)}/
+                        {('0' + end_date_format.getMonth()).slice(-2)}/
+                        {end_date_format.getFullYear()}
+                    </Text>
                   </View>
-                </ScrollView>
+                //</ScrollView>
             );  
         } else {
             return(

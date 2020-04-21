@@ -48,10 +48,22 @@ export default class App extends Component {
 
       refreshFlatList = () => {
         db.transaction(tx => {
-          tx.executeSql('SELECT * FROM Promotions', [], (tx, results) => {
+          tx.executeSql('SELECT * FROM Promotions ORDER BY id DESC', [], (tx, results) => {
             var temp = [];
             for (let i = 0; i < results.rows.length; ++i) {
-              temp.push(results.rows.item(i));
+              const item = results.rows.item(i);
+
+              const start_date_format = new Date(item.start_date);
+              item.start_date = ('0' + start_date_format.getDate()).slice(-2) + '/'
+                  + ('0' + start_date_format.getMonth()).slice(-2) + '/'
+                  + start_date_format.getFullYear();
+
+              const end_date_format = new Date(item.end_date);
+              item.end_date = ('0' + end_date_format.getDate()).slice(-2) + '/'
+                + ('0' + end_date_format.getMonth()).slice(-2) + '/'
+                + end_date_format.getFullYear();
+
+              temp.push(item);
             }
             this.setState({
               FlatListItems: temp,
@@ -62,7 +74,7 @@ export default class App extends Component {
 
       render() {
         
-        this.refreshFlatList()
+        this.refreshFlatList();
         return (
             
         <View style={styles.container}> 
