@@ -9,9 +9,17 @@ export default function App () {
   return (
       <View style= {styles.container}>
         <ScrollView style={styles.scrollView}>
-          <Image
-            style={styles.image}
-            source={require('../assets/GoStyleLog.png')}/>
+            <Image
+            style={{
+              alignSelf: 'center',
+              height: 112,
+              width: 170,
+              marginTop: 40,
+              borderWidth: 1,
+              borderRadius: 75
+            }}
+            source={require('../assets/mspr_logo.png')}
+            resizeMode="stretch"/>
           <Text style= {styles.title1}>Promos en cours</Text>
           <Carousel data  = {dummyData}/>
           <Text style = {styles.title2}>Dernière Promo Scanée</Text>
@@ -25,15 +33,7 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
-    backgroundColor: 'tomato'
-  },
-  
-  image: {
-    width: 'auto',
-    height: 100,
-    marginTop: 25,
-    marginBottom: 0,
-    resizeMode: 'cover'
+    backgroundColor: '#ffffff'
   },
   title1: {
     color:'white',
