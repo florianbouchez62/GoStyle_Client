@@ -18,7 +18,7 @@ export default function App () {
           <PromosScan/>
           </ScrollView>
         </View>
-      
+
     );
 }
 const styles = StyleSheet.create({
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'tomato'
   },
-  
+
   image: {
     width: 'auto',
     height: 100,
@@ -50,7 +50,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
     fontSize: 25,
-    
+
   },
 });
-
