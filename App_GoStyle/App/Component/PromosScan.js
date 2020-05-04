@@ -2,57 +2,51 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 import db from '../Database/Database';
 import moment from "moment";
+import * as DbHandler from "../Database/DatabaseHandler";
 
 export default class PromoScan extends Component {
 
     constructor(props) {
+        console.log('super cosntructeur');
         super(props);
 
         this.state = {
-          FlatListItems: [],
+          lastItem: undefined,
         };
 
         this.refreshFlatList();
     } 
 
       refreshFlatList = () => {
-        db.transaction(tx => {
-          tx.executeSql('SELECT * FROM Promotions ORDER BY id DESC LIMIT 1 ', [], (tx, results) => {
-            var temp = [];
-            for (let i = 0; i < results.rows.length; ++i) {
-              temp.push(results.rows.item(i));
-            }
-            this.setState({
-              FlatListItems: temp,
-            });
-          });
-        });
+          let lastpromo = undefined;
+          const query = async() => {
+              await DbHandler.getLastPromotionScanned().then(function (results) {
+                  lastpromo = results;
+              });
+              this.setState({lastItem: lastpromo});
+          };
+          query().then();
       };
-      
-      render() {
-        
-        this.refreshFlatList();
-        
-        if (this.state.FlatListItems[0] !== undefined){
-            const end_date_format = new Date(this.state.FlatListItems[0].end_date);
+
+    render() {
+        if (this.state.lastItem !== undefined){
+            const end_date_format = new Date(this.state.lastItem.end_date);
             return(
-                //<ScrollView style={styles.scrollView}>
                   <View style = {styles.container}>
                     
-                    <Text style = {styles.nameItem}>{this.state.FlatListItems[0].name}</Text>
-                    <Image style = {styles.img} source = {{uri: 'data:image/png;base64,' + this.state.FlatListItems[0].image}}/>
-                    <Text style = {styles.text1}>{this.state.FlatListItems[0].description}</Text>
+                    <Text style = {styles.nameItem}>{this.state.lastItem.name}</Text>
+                    <Image style = {styles.img} source = {{uri: 'data:image/png;base64,' + this.state.lastItem.image}}/>
+                    <Text style = {styles.text1}>{this.state.lastItem.description}</Text>
                     <Text style = {styles.text2}>
                         Se termine le : {('0' + end_date_format.getDate()).slice(-2)}/
                         {('0' + end_date_format.getMonth()).slice(-2)}/
                         {end_date_format.getFullYear()}
                     </Text>
                   </View>
-                //</ScrollView>
             );  
         } else {
             return(
-								<Text>Pas de promo</Text>
+                <Text>Pas de promo</Text>
             )
         }
       }

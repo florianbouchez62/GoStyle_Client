@@ -73,3 +73,19 @@ export function findPromotionByPath(apiPath){
         );
     });
 }
+
+export function getLastPromotionScanned(){
+    return new Promise(function (resolve, reject) {
+        db.transaction(
+            tx => {
+                tx.executeSql('SELECT * FROM Promotions ORDER BY id DESC LIMIT 1',
+                    [],
+                    (tx, result) => {resolve(result.rows.item(0))},
+                    (tx, error) => {console.log("Could not get last promotion: " + error);}
+                    );
+            },
+            error => {console.log("Error on transaction (select last promotion): " + error);},
+            () => {console.log("Transaction done (select last promotion) successfully !");}
+        );
+    });
+}
