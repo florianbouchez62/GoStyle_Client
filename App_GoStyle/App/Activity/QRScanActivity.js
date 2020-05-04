@@ -1,14 +1,18 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, Button } from 'react-native';
+import { Text, View, StyleSheet, Button} from 'react-native';
 import * as Permissions from 'expo-permissions';
 import {API_URL, API_PORT} from 'react-native-dotenv';
 import {Promotion} from "../models/Promotion";
+import PromoActivity from '../Activity/PromoActivity';
 import * as DbHandler from '../Database/DatabaseHandler';
+import {withNavigation} from 'react-navigation'
 
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import {Alert} from "react-native-web";
 
-export default class QRScanActivity extends React.Component {
+
+
+class QRScanActivity extends React.Component {
     state = {
         hasCameraPermission: null,
         scanned: true,
@@ -17,8 +21,28 @@ export default class QRScanActivity extends React.Component {
         titleAfterOneScan: 'Scanner un nouveau code'
     };
 
-    async componentDidMount() {
+
+
+    componentDidMount() {
         this.getPermissionsAsync();
+        const { addListener } = this.props.navigation
+        const { isDisplayed } = this.state
+        const self = this
+        this.state.isFocused=true;
+
+        this.listeners = [
+    addListener('didFocus', () => {
+      if (self.state.isDisplayed !== true) {
+        self.setState({ isDisplayed: true })
+      }
+    }),
+    addListener('willBlur', () => {
+      if (self.state.isDisplayed !== false) {
+        self.setState({ isDisplayed: false })
+      }
+    }),
+  ]
+
     }
 
     getPermissionsAsync = async () => {
@@ -29,20 +53,24 @@ export default class QRScanActivity extends React.Component {
     handleBarCodeScanned = ({ type, data }) => {
         try{
             const {alreadyScanned} = this.state;
+
             if(!alreadyScanned) this.setState({alreadyScanned: true});
-            this.setState({ scanned: true });
             //Permet de s'assurer que le code scanné est bien un QRCode
             const qrData = JSON.parse(data);
             console.log('DATA=' + data);
             if(type === "org.iso.QRCode" || type === 256){
                 this.getPromotionFromServer(qrData.url, qrData.token);
+
             } else {
                 alert('Le QRCode est invalide');
             }
+
+
         } catch {
             alert('Le QRCode est invalide');
         }
-
+        this.state.isFocused=false;
+        this.props.navigation.navigate('Promo');
     };
 
     getPromotionFromServer(apiPath, token){
@@ -88,7 +116,7 @@ export default class QRScanActivity extends React.Component {
     convertToPromotion(json){
         try{
             return new Promotion(json.id, json.code, json.description, json.start_date, json.end_date,
-                json.percentage, json.base64_image);
+                json.percentage, json.base64_image );
         } catch(e){
             alert('Impossible de créer la promotion');
             return null;
@@ -96,7 +124,7 @@ export default class QRScanActivity extends React.Component {
     }
 
     render() {
-        const { hasCameraPermission, scanned, alreadyScanned, defaultTitle, titleAfterOneScan } = this.state;
+        const { hasCameraPermission, scanned, isDisplayed, alreadyScanned, defaultTitle, titleAfterOneScan } = this.state;
 
         if (hasCameraPermission === null) {
             return <Text>Requesting for camera permission</Text>;
@@ -112,24 +140,16 @@ export default class QRScanActivity extends React.Component {
                     justifyContent: 'flex-end',
                 }}>
 
-                {!scanned && (
+                {scanned && isDisplayed &&(
                     <BarCodeScanner
-                        onBarCodeScanned={scanned ? undefined : this.handleBarCodeScanned}
+                        onBarCodeScanned={this.handleBarCodeScanned}
                         style={StyleSheet.absoluteFillObject}
                     />
+
                 )}
 
-                {scanned && (
-                    <Button
-                        title={alreadyScanned === false ? defaultTitle : titleAfterOneScan }
-                        onPress={() => this.setState({ scanned: false })}
-                    />
-                )}
             </View>
         );
     }
-
-
-
 }
-
+export default withNavigation(QRScanActivity);

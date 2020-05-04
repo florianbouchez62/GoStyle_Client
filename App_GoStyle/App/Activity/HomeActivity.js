@@ -26,7 +26,7 @@ export default function App () {
           <PromosScan/>
           </ScrollView>
         </View>
-      
+
     );
 }
 const styles = StyleSheet.create({
@@ -50,7 +50,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
     fontSize: 25,
-    
+
   },
 });
-
