@@ -15,13 +15,13 @@ const QRScanRoute = () => <QRScanActivity/>;
 
 const PromoRoute = () => <PromoActivity/>;
 
-const TabNav = createAppContainer(createMaterialTopTabNavigator({
+const TabNav = createAppContainer (createMaterialTopTabNavigator({
   Home:{screen:HomeRoute, navigationOptions:{tabBarLabel:'Accueil', tabBarIcon:({tintColor})=>(<Icon name='home' color={tintColor} size={24}/>)}},
   QRScan:{screen:QRScanRoute, navigationOptions:{tabBarLabel:'QR Scan', tabBarIcon:({tintColor})=>(<Icon name='qrcode' color={tintColor} size={24}/>)}},
   Promo:{screen:PromoRoute, navigationOptions:{tabBarLabel:'Promos', tabBarIcon:({tintColor})=>(<Icon name='sale' color={tintColor} size={24}/>)}}
   },{
   initialRouteName:'Home',
-  order:['Home','QRScan','Promo'],
+  order:['Home','Promo','QRScan'],
   tabBarPosition:'bottom',
   tabBarOptions:{
     activeTintColor:'blue',
@@ -44,4 +44,3 @@ export default class Navigation extends Component{
         </SafeAreaView>
     )
   } }
-

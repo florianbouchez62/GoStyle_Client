@@ -12,6 +12,7 @@ const _renderFooter = () => (
   </View>
 )
 
+
 export default class App extends Component {
 
     constructor(props) {
@@ -21,29 +22,31 @@ export default class App extends Component {
           FlatListItems: [],
         };
 
+
+
         this.refreshFlatList();
       }
-      
+
       ListViewItemSeparator = () => {
         return (
           <View style={{ height: 0.2, width: '100%', backgroundColor: '#808080' }} />
         );
       };
 
-      renderSeparator = () => {  
-        return (  
-            <View  
-                style={{  
-                    height: 10,  
-                    width: "100%",  
-                    backgroundColor: "#fff",  
-                }}  
-            />  
-        );  
-    };  
+      renderSeparator = () => {
+        return (
+            <View
+                style={{
+                    height: 10,
+                    width: "100%",
+                    backgroundColor: "#fff",
+                }}
+            />
+        );
+    };
 
-      getListViewItem = (item) => {  
-        Alert.alert(item.name, item.description);  
+      getListViewItem = (item) => {
+        Alert.alert(item.name, item.description);
       };
 
       refreshFlatList = () => {
@@ -73,13 +76,13 @@ export default class App extends Component {
       };
 
       render() {
-        
+
         this.refreshFlatList();
         return (
-            
-        <View style={styles.container}> 
+
+        <View style={styles.container}>
           <Text style={styles.titre}>Promotions :</Text>
-          <Text style={styles.info}>(cliquer sur une promotion pour plus de détails){'\n'}</Text>         
+          <Text style={styles.info}>(cliquer sur une promotion pour plus de détails){'\n'}</Text>
           <View>
             <FlatList
               style={styles.FlatList}
@@ -101,31 +104,31 @@ export default class App extends Component {
               )}
               ItemSeparatorComponent={this.renderSeparator}
             />
-          </View>        
+          </View>
         </View>
         );
       }
     }
 
-    const styles = StyleSheet.create({  
-      FlatList: { 
+    const styles = StyleSheet.create({
+      FlatList: {
         marginTop: 10,
       },
-        container: {  
-            flex: 1,  
+        container: {
+            flex: 1,
             marginTop: 20,
             alignItems: 'center',
             backgroundColor: '#fff'
-        },  
-        item: {  
+        },
+        item: {
             paddingTop: 20,
-            textAlign: "center", 
-            height: 250,  
+            textAlign: "center",
+            height: 250,
             width: 300,
             backgroundColor: '#F3F4F4',
             elevation: 2,
             borderRadius: 20,
-        },  
+        },
         titre: {
           marginTop: 10,
           fontSize: 36,
@@ -139,7 +142,7 @@ export default class App extends Component {
           color: 'black'
        },
         img: {
-          width: 70, 
+          width: 70,
           height: 70,
        },
        titreh4: {
