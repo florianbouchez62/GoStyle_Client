@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
-import db from '../Database/Database';
-import moment from "moment";
-import * as DbHandler from "../Database/DatabaseHandler";
-import {withNavigation} from "react-navigation";
 
 export default class PromoScan extends Component {
 
@@ -30,7 +26,7 @@ export default class PromoScan extends Component {
             );  
         } else {
             return(
-                <Text>Pas de promo</Text>
+                <Text style={styles.nameItem}>Aucune promotion scannée !</Text>
             )
         }
       }
