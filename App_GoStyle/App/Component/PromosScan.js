@@ -3,40 +3,24 @@ import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 import db from '../Database/Database';
 import moment from "moment";
 import * as DbHandler from "../Database/DatabaseHandler";
+import {withNavigation} from "react-navigation";
 
 export default class PromoScan extends Component {
 
     constructor(props) {
-        console.log('super cosntructeur');
         super(props);
+    }
 
-        this.state = {
-          lastItem: undefined,
-        };
-
-        this.refreshFlatList();
-    } 
-
-      refreshFlatList = () => {
-          let lastpromo = undefined;
-          const query = async() => {
-              await DbHandler.getLastPromotionScanned().then(function (results) {
-                  lastpromo = results;
-              });
-              this.setState({lastItem: lastpromo});
-          };
-          query().then();
-      };
 
     render() {
-        if (this.state.lastItem !== undefined){
-            const end_date_format = new Date(this.state.lastItem.end_date);
+        if (this.props.lastItem !== undefined){
+            const end_date_format = new Date(this.props.lastItem.end_date);
             return(
                   <View style = {styles.container}>
                     
-                    <Text style = {styles.nameItem}>{this.state.lastItem.name}</Text>
-                    <Image style = {styles.img} source = {{uri: 'data:image/png;base64,' + this.state.lastItem.image}}/>
-                    <Text style = {styles.text1}>{this.state.lastItem.description}</Text>
+                    <Text style = {styles.nameItem}>{this.props.lastItem.name}</Text>
+                    <Image style = {styles.img} source = {{uri: 'data:image/png;base64,' + this.props.lastItem.image}}/>
+                    <Text style = {styles.text1}>{this.props.lastItem.description}</Text>
                     <Text style = {styles.text2}>
                         Se termine le : {('0' + end_date_format.getDate()).slice(-2)}/
                         {('0' + end_date_format.getMonth()).slice(-2)}/
@@ -50,7 +34,8 @@ export default class PromoScan extends Component {
             )
         }
       }
-    }
+}
+
     const styles = StyleSheet.create({  
 
       container: {
@@ -97,5 +82,3 @@ export default class PromoScan extends Component {
         marginBottom: 10
       }
     });
-
-

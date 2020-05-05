@@ -5,7 +5,7 @@ import {API_URL, API_PORT} from 'react-native-dotenv';
 import {Promotion} from "../models/Promotion";
 import PromoActivity from '../Activity/PromoActivity';
 import * as DbHandler from '../Database/DatabaseHandler';
-import {withNavigation} from 'react-navigation'
+import {withNavigation} from 'react-navigation';
 
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import {Alert} from "react-native-web";
@@ -25,25 +25,24 @@ class QRScanActivity extends React.Component {
 
     componentDidMount() {
         this.getPermissionsAsync();
-        const { addListener } = this.props.navigation
-        const { isDisplayed } = this.state
-        const self = this
+        const { addListener } = this.props.navigation;
+        const { isDisplayed } = this.state;
+        const self = this;
         this.state.isFocused=true;
 
         this.listeners = [
-    addListener('didFocus', () => {
-      if (self.state.isDisplayed !== true) {
-        self.setState({ isDisplayed: true })
-      }
-    }),
-    addListener('willBlur', () => {
-      if (self.state.isDisplayed !== false) {
-        self.setState({ isDisplayed: false })
-      }
-    }),
-  ]
-
-    }
+            addListener('didFocus', () => {
+              if (self.state.isDisplayed !== true) {
+                self.setState({ isDisplayed: true })
+              }
+            }),
+            addListener('willBlur', () => {
+              if (self.state.isDisplayed !== false) {
+                self.setState({ isDisplayed: false })
+              }
+            }),
+        ]
+    };
 
     getPermissionsAsync = async () => {
         const { status } = await Permissions.askAsync(Permissions.CAMERA);
