@@ -1,62 +1,37 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
-import db from '../Database/Database';
-import moment from "moment";
 
 export default class PromoScan extends Component {
 
     constructor(props) {
         super(props);
+    }
 
-        this.state = {
-          FlatListItems: [],
-        };
 
-        this.refreshFlatList();
-    } 
-
-      refreshFlatList = () => {
-        db.transaction(tx => {
-          tx.executeSql('SELECT * FROM Promotions ORDER BY id DESC LIMIT 1 ', [], (tx, results) => {
-            var temp = [];
-            for (let i = 0; i < results.rows.length; ++i) {
-              temp.push(results.rows.item(i));
-            }
-            this.setState({
-              FlatListItems: temp,
-            });
-          });
-        });
-      };
-      
-      render() {
-        
-        this.refreshFlatList();
-        
-        if (this.state.FlatListItems[0] !== undefined){
-            const end_date_format = new Date(this.state.FlatListItems[0].end_date);
+    render() {
+        if (this.props.lastItem !== undefined){
+            const end_date_format = new Date(this.props.lastItem.end_date);
             return(
-                //<ScrollView style={styles.scrollView}>
                   <View style = {styles.container}>
                     
-                    <Text style = {styles.nameItem}>{this.state.FlatListItems[0].name}</Text>
-                    <Image style = {styles.img} source = {{uri: 'data:image/png;base64,' + this.state.FlatListItems[0].image}}/>
-                    <Text style = {styles.text1}>{this.state.FlatListItems[0].description}</Text>
+                    <Text style = {styles.nameItem}>{this.props.lastItem.name}</Text>
+                    <Image style = {styles.img} source = {{uri: 'data:image/png;base64,' + this.props.lastItem.image}}/>
+                    <Text style = {styles.text1}>{this.props.lastItem.description}</Text>
                     <Text style = {styles.text2}>
                         Se termine le : {('0' + end_date_format.getDate()).slice(-2)}/
                         {('0' + end_date_format.getMonth()).slice(-2)}/
                         {end_date_format.getFullYear()}
                     </Text>
                   </View>
-                //</ScrollView>
             );  
         } else {
             return(
-								<Text>Pas de promo</Text>
+                <Text style={styles.nameItem}>Aucune promotion scannée !</Text>
             )
         }
       }
-    }
+}
+
     const styles = StyleSheet.create({  
 
       container: {
@@ -103,5 +78,3 @@ export default class PromoScan extends Component {
         marginBottom: 10
       }
     });
-
-

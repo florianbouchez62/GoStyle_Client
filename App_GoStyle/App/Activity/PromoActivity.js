@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, FlatList, Alert, Image, Button, ScrollView } from 'react-native';
-import db from '../Database/Database';
+import * as DbHandler from "../Database/DatabaseHandler";
+import {withNavigation} from 'react-navigation';
 
 const _renderFooter = () => (
   <View>
@@ -12,8 +13,7 @@ const _renderFooter = () => (
   </View>
 )
 
-
-export default class App extends Component {
+class PromoActivity extends Component {
 
     constructor(props) {
         super(props);
@@ -21,8 +21,6 @@ export default class App extends Component {
         this.state = {
           FlatListItems: [],
         };
-
-
 
         this.refreshFlatList();
       }
@@ -33,7 +31,7 @@ export default class App extends Component {
         );
       };
 
-      renderSeparator = () => {
+    renderSeparator = () => {
         return (
             <View
                 style={{
@@ -45,39 +43,32 @@ export default class App extends Component {
         );
     };
 
-      getListViewItem = (item) => {
+    getListViewItem = (item) => {
         Alert.alert(item.name, item.description);
-      };
+    };
 
-      refreshFlatList = () => {
-        db.transaction(tx => {
-          tx.executeSql('SELECT * FROM Promotions ORDER BY id DESC', [], (tx, results) => {
-            var temp = [];
-            for (let i = 0; i < results.rows.length; ++i) {
-              const item = results.rows.item(i);
+    componentDidMount() {
+        const {addListener} = this.props.navigation;
+        this.listeners = [
+            addListener('didFocus', () => {
+                this.refreshFlatList();
+            })
+        ]
+    }
 
-              const start_date_format = new Date(item.start_date);
-              item.start_date = ('0' + start_date_format.getDate()).slice(-2) + '/'
-                  + ('0' + start_date_format.getMonth()).slice(-2) + '/'
-                  + start_date_format.getFullYear();
-
-              const end_date_format = new Date(item.end_date);
-              item.end_date = ('0' + end_date_format.getDate()).slice(-2) + '/'
-                + ('0' + end_date_format.getMonth()).slice(-2) + '/'
-                + end_date_format.getFullYear();
-
-              temp.push(item);
-            }
-            this.setState({
-              FlatListItems: temp,
+    refreshFlatList = () => {
+        console.log('Refreshing all promotions from local db');
+        let allpromos = undefined;
+        const query = async() => {
+            await DbHandler.getAllPromotionsScanned().then(function(temp) {
+                allpromos = temp;
             });
-          });
-        });
-      };
+            this.setState({FlatListItems: allpromos});
+        };
+        query().then();
+    };
 
       render() {
-
-        this.refreshFlatList();
         return (
 
         <View style={styles.container}>
@@ -109,6 +100,7 @@ export default class App extends Component {
         );
       }
     }
+    export default withNavigation(PromoActivity);
 
     const styles = StyleSheet.create({
       FlatList: {

@@ -73,3 +73,55 @@ export function findPromotionByPath(apiPath){
         );
     });
 }
+
+export function getLastPromotionScanned(){
+    return new Promise(function (resolve, reject) {
+        db.transaction(
+            tx => {
+                tx.executeSql('SELECT * FROM Promotions ORDER BY id DESC LIMIT 1',
+                    [],
+                    (tx, result) => {resolve(result.rows.item(0))},
+                    (tx, error) => {console.log("Could not get last promotion: " + error);}
+                    );
+            },
+            error => {console.log("Error on transaction (select last promotion): " + error);},
+            () => {console.log("Transaction done (select last promotion) successfully !");}
+        );
+    });
+}
+
+export function getAllPromotionsScanned(){
+    return new Promise(function(resolve, reject) {
+        db.transaction(
+          tx => {
+              tx.executeSql('SELECT * FROM Promotions ORDER BY id DESC',
+                  [],
+                  (tx, result) => {
+                      var temp = [];
+                      for (let i = 0; i < result.rows.length; ++i) {
+                          const item = result.rows.item(i);
+
+                          const start_date_format = new Date(item.start_date);
+                          item.start_date = ('0' + start_date_format.getDate()).slice(-2) + '/'
+                              + ('0' + start_date_format.getMonth()).slice(-2) + '/'
+                              + start_date_format.getFullYear();
+
+                          const end_date_format = new Date(item.end_date);
+                          item.end_date = ('0' + end_date_format.getDate()).slice(-2) + '/'
+                              + ('0' + end_date_format.getMonth()).slice(-2) + '/'
+                              + end_date_format.getFullYear();
+
+                          temp.push(item);
+                          resolve(temp);
+                      }
+                  },
+                  (tx, error) => {
+                        console.log('Could not get all promotions :' + error);
+                  }
+              );
+          },
+            error => {console.log("Error on transaction (select all promotions): " + error);},
+            () => {console.log("Transaction done (select all promotions) successfully !");}
+        );
+    });
+}
