@@ -6,6 +6,7 @@ import {Promotion} from "../models/Promotion";
 import PromoActivity from '../Activity/PromoActivity';
 import * as DbHandler from '../Database/DatabaseHandler';
 import {withNavigation} from 'react-navigation';
+import refreshFlatList from '../Activity/PromoActivity'
 
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import {Alert} from "react-native-web";
@@ -21,14 +22,16 @@ class QRScanActivity extends React.Component {
         titleAfterOneScan: 'Scanner un nouveau code'
     };
 
-
+    getPermissionsAsync = async () => {
+        const { status } = await Permissions.askAsync(Permissions.CAMERA);
+        this.setState({ hasCameraPermission: status === 'granted' });
+    };
 
     componentDidMount() {
         this.getPermissionsAsync();
         const { addListener } = this.props.navigation;
         const { isDisplayed } = this.state;
         const self = this;
-        this.state.isFocused=true;
 
         this.listeners = [
             addListener('didFocus', () => {
@@ -44,10 +47,7 @@ class QRScanActivity extends React.Component {
         ]
     };
 
-    getPermissionsAsync = async () => {
-        const { status } = await Permissions.askAsync(Permissions.CAMERA);
-        this.setState({ hasCameraPermission: status === 'granted' });
-    };
+
 
     handleBarCodeScanned = ({ type, data }) => {
         try{
@@ -67,8 +67,7 @@ class QRScanActivity extends React.Component {
         } catch {
             alert('Le QRCode est invalide');
         }
-        this.state.isFocused=false;
-        this.props.navigation.navigate('Promo');
+
     };
 
     getPromotionFromServer(apiPath, token){
@@ -91,6 +90,7 @@ class QRScanActivity extends React.Component {
                 });
                 this.processInsertion(nbPromotions, promotion, apiPath);
                 this.setState({ refresh: !this.state.refresh })
+                this.props.navigation.navigate('Promo');
             } else {
                 console.log(response.status);
                 alert('Impossible de récupérer la promotion');
