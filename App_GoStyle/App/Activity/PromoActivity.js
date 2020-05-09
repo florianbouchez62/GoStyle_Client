@@ -120,28 +120,41 @@ class PromoActivity extends Component {
             backgroundColor: '#F3F4F4',
             elevation: 2,
             borderRadius: 20,
+            color:'#b75f5e',
+
+
         },
         titre: {
           marginTop: 10,
           fontSize: 36,
           fontWeight: 'bold',
+          color:'#b75f5e',
+          textShadowColor: 'black',
+   textShadowOffset: {width: 0, height: 0},
+   textShadowRadius: 1
+
         },
         info: {
          fontSize: 12,
          fontStyle: 'italic',
         },
         libelle: {
-          color: 'black'
+          color: 'black',
+          color:'#b75f5e',
        },
         img: {
           width: 70,
           height: 70,
        },
        titreh4: {
-         fontWeight: 'bold'
+         fontWeight: 'bold',
+
        },
        nameItem: {
          fontWeight: 'bold',
          fontSize: 14,
+         textShadowColor: 'black',
+  textShadowOffset: {width: 0, height: 0},
+  textShadowRadius: 1
        }
     });

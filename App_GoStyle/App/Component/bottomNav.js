@@ -24,7 +24,7 @@ const TabNav = createAppContainer (createMaterialTopTabNavigator({
   order:['Home','Promo','QRScan'],
   tabBarPosition:'bottom',
   tabBarOptions:{
-    activeTintColor:'blue',
+    activeTintColor:'#b75f5e',
     inactiveTintColor:'grey',
     style:{
       backgroundColor: '#f2f2f2'
