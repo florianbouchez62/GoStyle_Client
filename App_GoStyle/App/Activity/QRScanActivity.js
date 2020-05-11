@@ -1,39 +1,42 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, Button} from 'react-native';
+import { Text, View, StyleSheet, Button, Alert} from 'react-native';
 import * as Permissions from 'expo-permissions';
 import {API_URL, API_PORT} from 'react-native-dotenv';
 import {Promotion} from "../models/Promotion";
 import PromoActivity from '../Activity/PromoActivity';
 import * as DbHandler from '../Database/DatabaseHandler';
 import {withNavigation} from 'react-navigation';
+import refreshFlatList from '../Activity/PromoActivity'
 
 import { BarCodeScanner } from 'expo-barcode-scanner';
-import {Alert} from "react-native-web";
 
 
 
 class QRScanActivity extends React.Component {
     state = {
         hasCameraPermission: null,
-        scanned: true,
+        scanned: false,
         alreadyScanned: false,
         defaultTitle: 'Scanner un code',
         titleAfterOneScan: 'Scanner un nouveau code'
     };
 
-
+    getPermissionsAsync = async () => {
+        const { status } = await Permissions.askAsync(Permissions.CAMERA);
+        this.setState({ hasCameraPermission: status === 'granted' });
+    };
 
     componentDidMount() {
         this.getPermissionsAsync();
         const { addListener } = this.props.navigation;
         const { isDisplayed } = this.state;
         const self = this;
-        this.state.isFocused=true;
 
         this.listeners = [
             addListener('didFocus', () => {
               if (self.state.isDisplayed !== true) {
                 self.setState({ isDisplayed: true })
+                self.setState({ scanned: false })
               }
             }),
             addListener('willBlur', () => {
@@ -44,10 +47,7 @@ class QRScanActivity extends React.Component {
         ]
     };
 
-    getPermissionsAsync = async () => {
-        const { status } = await Permissions.askAsync(Permissions.CAMERA);
-        this.setState({ hasCameraPermission: status === 'granted' });
-    };
+
 
     handleBarCodeScanned = ({ type, data }) => {
         try{
@@ -58,17 +58,33 @@ class QRScanActivity extends React.Component {
             const qrData = JSON.parse(data);
             if(type === "org.iso.QRCode" || type === 256){
                 this.getPromotionFromServer(qrData.url, qrData.token);
-
+                this.setState({scanned: true});
             } else {
-                alert('Le QRCode est invalide');
+              this.setState({scanned: true});
+                Alert.alert(
+                  'Alert',
+                  'Le QRCode est invalide',
+                  [
+                    {text: 'OK', onPress: () => {this.setState({scanned: false})}},
+
+                  ]);
+
             }
+            
 
 
         } catch {
-            alert('Le QRCode est invalide');
+          this.setState({scanned: true});
+            Alert.alert(
+              'Alert',
+              'Le QRCode est invalide',
+              [
+                {text: 'OK', onPress: () => {this.setState({scanned: false})}},
+
+              ]);
+
         }
-        this.state.isFocused=false;
-        this.props.navigation.navigate('Promo');
+
     };
 
     getPromotionFromServer(apiPath, token){
@@ -91,6 +107,7 @@ class QRScanActivity extends React.Component {
                 });
                 this.processInsertion(nbPromotions, promotion, apiPath);
                 this.setState({ refresh: !this.state.refresh })
+                this.props.navigation.navigate('Promo');
             } else {
                 console.log(response.status);
                 alert('Impossible de récupérer la promotion');
@@ -138,7 +155,7 @@ class QRScanActivity extends React.Component {
                     justifyContent: 'flex-end',
                 }}>
 
-                {scanned && isDisplayed &&(
+                {!scanned && isDisplayed &&(
                     <BarCodeScanner
                         onBarCodeScanned={this.handleBarCodeScanned}
                         style={StyleSheet.absoluteFillObject}

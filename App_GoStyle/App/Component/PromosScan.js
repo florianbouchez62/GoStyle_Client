@@ -13,7 +13,7 @@ export default class PromoScan extends Component {
             const end_date_format = new Date(this.props.lastItem.end_date);
             return(
                   <View style = {styles.container}>
-                    
+
                     <Text style = {styles.nameItem}>{this.props.lastItem.name}</Text>
                     <Image style = {styles.img} source = {{uri: 'data:image/png;base64,' + this.props.lastItem.image}}/>
                     <Text style = {styles.text1}>{this.props.lastItem.description}</Text>
@@ -23,7 +23,7 @@ export default class PromoScan extends Component {
                         {end_date_format.getFullYear()}
                     </Text>
                   </View>
-            );  
+            );
         } else {
             return(
                 <Text style={styles.nameItem}>Aucune promotion scannée !</Text>
@@ -32,7 +32,7 @@ export default class PromoScan extends Component {
       }
 }
 
-    const styles = StyleSheet.create({  
+    const styles = StyleSheet.create({
 
       container: {
         justifyContent: 'center',
@@ -46,35 +46,43 @@ export default class PromoScan extends Component {
         shadowRadius: 3,
         elevation: 5
       },
-      FlatList: { 
+      FlatList: {
         marginTop: 10,
       },
       scrollView: {
         marginHorizontal: 40,
         marginBottom: 20
-      }, 
+      },
       title: {
         marginTop: 5,
         fontSize: 35,
         fontWeight: 'bold',
+        color:'#b75f5e',
+
       },
       img: {
-        width: 100, 
+        width: 100,
         height: 100,
         alignItems: 'center'
       },
       nameItem: {
         textAlign: 'center',
         fontWeight: 'bold',
+        color:'#b75f5e',
         fontSize: 30,
+        textShadowColor: 'black',
+ textShadowOffset: {width: 0, height: 0},
+ textShadowRadius: 1
       },
       text1: {
         fontWeight: 'bold',
+        color:'#b75f5e',
         fontSize: 20,
       },
       text2: {
         fontWeight: 'bold',
+        color:'#b75f5e',
         fontSize: 20,
-        marginBottom: 10
+        marginBottom: 10,
       }
     });

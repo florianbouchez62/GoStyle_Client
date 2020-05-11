@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
         bottom: 10,
         marginTop: 10,
         left: 5,
+
     },
 
     image: {
@@ -45,10 +46,14 @@ const styles = StyleSheet.create({
     },
 
     itemTitle: {
-        color: 'tomato',
+        color: '#b75f5e',
         fontSize: 25,
         fontWeight: "bold",
-        elevation: 5 
+        elevation: 5,
+        textShadowColor: 'black',
+ textShadowOffset: {width: 0, height: 0},
+ textShadowRadius: 1
+
     },
 
     itemDescription: {
