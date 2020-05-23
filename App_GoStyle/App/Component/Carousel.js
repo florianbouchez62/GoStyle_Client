@@ -21,7 +21,7 @@ function infiniteScroll(dataList) {
         }
 
         this.flatList.scrollToOffset({Animated: true, offset: scrollValue})
-    }, 3000)
+    }, 5000)
 }
 
 const Carousel = ({data}) => {
