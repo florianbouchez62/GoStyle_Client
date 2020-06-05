@@ -27,10 +27,11 @@ const TabNav = createAppContainer (createMaterialTopTabNavigator({
     activeTintColor:'#b75f5e',
     inactiveTintColor:'grey',
     style:{
-      backgroundColor: '#f2f2f2'
+      backgroundColor: '#fff'
     },
     indicatorStyle:{
-      height:0
+      height:5,
+      backgroundColor:'#b75f5e'
     },
     showIcon:true
   }

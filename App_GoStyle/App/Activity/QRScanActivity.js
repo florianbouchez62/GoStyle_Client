@@ -1,22 +1,17 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, Button, Alert} from 'react-native';
+import { Text, View, StyleSheet, Button, Alert, Dimensions, Image} from 'react-native';
 import * as Permissions from 'expo-permissions';
 import {API_URL, API_PORT} from 'react-native-dotenv';
 import {Promotion} from "../models/Promotion";
-import PromoActivity from '../Activity/PromoActivity';
 import * as DbHandler from '../Database/DatabaseHandler';
 import {withNavigation} from 'react-navigation';
-import refreshFlatList from '../Activity/PromoActivity'
 
 import { BarCodeScanner } from 'expo-barcode-scanner';
-
-
-
+const { width } = Dimensions.get('window')
+const qrSize = width * 0.7
 class QRScanActivity extends React.Component {
     state = {
         hasCameraPermission: null,
-        scanned: false,
-        alreadyScanned: false,
         defaultTitle: 'Scanner un code',
         titleAfterOneScan: 'Scanner un nouveau code'
     };
@@ -24,24 +19,30 @@ class QRScanActivity extends React.Component {
     getPermissionsAsync = async () => {
         const { status } = await Permissions.askAsync(Permissions.CAMERA);
         this.setState({ hasCameraPermission: status === 'granted' });
+
     };
 
     componentDidMount() {
         this.getPermissionsAsync();
         const { addListener } = this.props.navigation;
         const { isDisplayed } = this.state;
+        const { alreadyScanned } = this.state;
         const self = this;
 
         this.listeners = [
             addListener('didFocus', () => {
               if (self.state.isDisplayed !== true) {
-                self.setState({ isDisplayed: true })
-                self.setState({ scanned: false })
+                  setTimeout( () => {
+                      self.setState({ isDisplayed: true })
+                      self.setState({ alreadyScanned: false })
+                  },200);
               }
             }),
-            addListener('willBlur', () => {
+            addListener('didBlur', () => {
               if (self.state.isDisplayed !== false) {
-                self.setState({ isDisplayed: false })
+                  setTimeout( () => {
+                      self.setState({ isDisplayed: false })
+                  },200);
               }
             }),
         ]
@@ -58,14 +59,12 @@ class QRScanActivity extends React.Component {
             const qrData = JSON.parse(data);
             if(type === "org.iso.QRCode" || type === 256){
                 this.getPromotionFromServer(qrData.url, qrData.token);
-                this.setState({scanned: true});
             } else {
-              this.setState({scanned: true});
                 Alert.alert(
                   'Alert',
                   'Le QRCode est invalide',
                   [
-                    {text: 'OK', onPress: () => {this.setState({scanned: false})}},
+                    {text: 'OK'},
 
                   ]);
 
@@ -74,12 +73,11 @@ class QRScanActivity extends React.Component {
 
 
         } catch {
-          this.setState({scanned: true});
             Alert.alert(
               'Alert',
               'Le QRCode est invalide',
               [
-                {text: 'OK', onPress: () => {this.setState({scanned: false})}},
+                {text: 'OK'},
 
               ]);
 
@@ -139,7 +137,8 @@ class QRScanActivity extends React.Component {
     }
 
     render() {
-        const { hasCameraPermission, scanned, isDisplayed, alreadyScanned, defaultTitle, titleAfterOneScan } = this.state;
+
+        const { hasCameraPermission, isDisplayed, alreadyScanned, defaultTitle, titleAfterOneScan } = this.state;
 
         if (hasCameraPermission === null) {
             return <Text>Requesting for camera permission</Text>;
@@ -148,18 +147,38 @@ class QRScanActivity extends React.Component {
             return <Text>No access to camera</Text>;
         }
         return (
+
             <View
                 style={{
                     flex: 1,
-                    flexDirection: 'column',
-                    justifyContent: 'flex-end',
+                    justifyContent: 'center',
+                    justifyItems:'center',
+                    marginTop:-150,
+                    marginRight:-100,
+                    marginLeft:-100,
+                    marginBottom:-150,
+                    backgroundColor: 'black'
                 }}>
+                {!isDisplayed &&(
+                   <View>
+                       <Text  style={styles.descriptionNotDisplay}>Scannez un QR Code</Text>
+                       <Image
+                           style={styles.qrNotDisplay}
+                           source={require('../assets/qr.png')}
+                       />
 
-                {!scanned && isDisplayed &&(
+                   </View>
+                    )}
+                {isDisplayed && !alreadyScanned &&(
                     <BarCodeScanner
                         onBarCodeScanned={this.handleBarCodeScanned}
-                        style={StyleSheet.absoluteFillObject}
-                    />
+                        style={[StyleSheet.absoluteFillObject, styles.cameraContainer]}>
+                    <Text  style={styles.description}>Scannez un QR Code</Text>
+                        <Image
+                            style={styles.qr}
+                            source={require('../assets/qr.png')}
+                        />
+                    </BarCodeScanner>
 
                 )}
 
@@ -168,3 +187,38 @@ class QRScanActivity extends React.Component {
     }
 }
 export default withNavigation(QRScanActivity);
+
+const styles = StyleSheet.create({
+    description: {
+        fontSize: 20,
+        marginTop: '40%',
+        textAlign: 'center',
+        justifyContent: 'center',
+        color: 'white',
+    },
+    cameraContainer: {
+        flex: 1,
+        alignItems: 'center',
+    },
+    qr: {
+        marginTop: '20%',
+        justifyContent: 'center',
+        width: qrSize,
+        height: qrSize,
+    },
+    descriptionNotDisplay:{
+        fontSize: 20,
+        marginTop: -120,
+        marginRight:0,
+        textAlign: 'center',
+        justifyContent: 'center',
+        color: 'white',
+    },
+    qrNotDisplay:{
+        marginTop: '20%',
+        justifyContent: 'center',
+        width: qrSize,
+        height: qrSize,
+        marginLeft:161
+    }
+})

@@ -6,6 +6,7 @@ import * as DbHandler from "../Database/DatabaseHandler";
 import PromoScan from "../Component/PromosScan";
 import {withNavigation} from 'react-navigation';
 
+
 class HomeActivity extends Component {
 
   constructor(props) {
@@ -14,16 +15,20 @@ class HomeActivity extends Component {
     this.state = {
       lastItem: undefined,
       texte:'salut les loulous',
+      isDisplayed: true,
     };
 
     this.refreshFlatList();
   }
+
 
   componentDidMount() {
     const {addListener} = this.props.navigation;
     this.listeners = [
         addListener('didFocus', () => {
           this.refreshFlatList();
+
+
         })
     ]
   }
@@ -57,7 +62,7 @@ class HomeActivity extends Component {
                 resizeMode="stretch"/>
             <Text style= {styles.title1}>Promos en cours</Text>
             <Carousel data  = {dummyData}/>
-            <Text style = {styles.title2}>Dernière Promo Scanée</Text>
+
             <PromoScan lastItem={this.state.lastItem}/>
           </ScrollView>
         </View>
@@ -70,23 +75,31 @@ export default withNavigation(HomeActivity);
 const styles = StyleSheet.create({
 
   container: {
+
     flex: 1,
-    backgroundColor: '#ffffff'
+    backgroundColor: '#f2f2f2'
   },
   title1: {
-    color:'white',
+    color:'#b75f5e',
     marginBottom: 10,
     marginTop: 20,
     textAlign: 'center',
     fontWeight: 'bold',
     fontSize: 25,
+    textShadowColor: 'black',
+    textShadowOffset: {width: 0, height: 0},
+    textShadowRadius: 1
   },
   title2: {
-    color:'white',
+
+    color:'#b75f5e',
     marginBottom: 10,
     marginTop: 10,
     textAlign: 'center',
     fontWeight: 'bold',
     fontSize: 25,
+    textShadowColor: 'black',
+    textShadowOffset: {width: 0, height: 0},
+    textShadowRadius: 1
   }
 });

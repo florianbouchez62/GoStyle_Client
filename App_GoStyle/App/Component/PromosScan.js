@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
+import {withNavigation} from 'react-navigation';
 
 export default class PromoScan extends Component {
 
@@ -12,16 +13,23 @@ export default class PromoScan extends Component {
         if (this.props.lastItem !== undefined){
             const end_date_format = new Date(this.props.lastItem.end_date);
             return(
-                  <View style = {styles.container}>
 
-                    <Text style = {styles.nameItem}>{this.props.lastItem.name}</Text>
-                    <Image style = {styles.img} source = {{uri: 'data:image/png;base64,' + this.props.lastItem.image}}/>
-                    <Text style = {styles.text1}>{this.props.lastItem.description}</Text>
+                  <View>
+                      <Text style = {styles.title2}>Dernière Promo Scanée</Text>
+                      <View style = {styles.container}>
+                      <Image style = {styles.img} source = {{uri: 'data:image/png;base64,' + this.props.lastItem.image}}/>
+
+                      <Text style={styles.text}>
+                    <Text style = {styles.nameItem}>{this.props.lastItem.name}</Text>{'\n'}{'\n'}
+
+                    <Text style = {styles.text1}>{this.props.lastItem.description}</Text>{'\n'}{'\n'}
                     <Text style = {styles.text2}>
                         Se termine le : {('0' + end_date_format.getDate()).slice(-2)}/
                         {('0' + end_date_format.getMonth()).slice(-2)}/
                         {end_date_format.getFullYear()}
                     </Text>
+                      </Text>
+                  </View>
                   </View>
             );
         } else {
@@ -37,15 +45,22 @@ export default class PromoScan extends Component {
       container: {
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'white',
+          padding:20,
         margin: 10,
-        borderRadius: 10,
-        shadowColor: '#000',
-        shadowOffset: {width: 0.5, height: 0.5},
-        shadowOpacity: 0.5,
-        shadowRadius: 3,
-        elevation: 5
+          textAlign: "center",
+          backgroundColor: '#FFF',
+          elevation: 2,
+          borderRadius: 5,
+          color:'#b75f5e',
+          flexDirection:'row',
+          flex:1
       },
+       text: {
+
+
+            textAlign: "center",
+           justifyContent: 'center'
+        },
       FlatList: {
         marginTop: 10,
       },
@@ -61,28 +76,32 @@ export default class PromoScan extends Component {
 
       },
       img: {
-        width: 100,
-        height: 100,
-        alignItems: 'center'
+          width:80,
+          height:80,
+          borderRadius:60,
+          marginRight:40,
       },
       nameItem: {
         textAlign: 'center',
         fontWeight: 'bold',
         color:'#b75f5e',
-        fontSize: 30,
-        textShadowColor: 'black',
- textShadowOffset: {width: 0, height: 0},
- textShadowRadius: 1
+        fontSize: 25,
       },
       text1: {
-        fontWeight: 'bold',
-        color:'#b75f5e',
-        fontSize: 20,
+        fontSize: 15,
       },
       text2: {
-        fontWeight: 'bold',
-        color:'#b75f5e',
-        fontSize: 20,
-        marginBottom: 10,
-      }
+        fontSize: 15,
+      },
+        title2: {
+            color:'#b75f5e',
+            marginBottom: 10,
+            marginTop: 10,
+            textAlign: 'center',
+            fontWeight: 'bold',
+            fontSize: 25,
+            textShadowColor: 'black',
+            textShadowOffset: {width: 0, height: 0},
+            textShadowRadius: 1
+        }
     });
