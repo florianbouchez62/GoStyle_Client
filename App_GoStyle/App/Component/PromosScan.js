@@ -15,7 +15,7 @@ export default class PromoScan extends Component {
             return(
 
                   <View>
-                      <Text style = {styles.title2}>Dernière Promo Scanée</Text>
+                      <Text style = {styles.title2}>Dernière Promo Scannée</Text>
                       <View style = {styles.container}>
                       <Image style = {styles.img} source = {{uri: 'data:image/png;base64,' + this.props.lastItem.image}}/>
 

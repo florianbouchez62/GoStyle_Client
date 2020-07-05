@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, FlatList, Alert, Image, Button, ScrollView, TouchableOpacity } from 'react-native';
 import * as DbHandler from "../Database/DatabaseHandler";
+
 import {withNavigation} from 'react-navigation';
+
+
 
 const _renderFooter = () => (
   <View>
