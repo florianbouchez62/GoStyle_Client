@@ -80,5 +80,5 @@ API_PORT=8000
 > [@florianbouchez62](https://github.com/florianbouchez62) &nbsp;&middot;&nbsp;
 > [@lucaslemaire](https://github.com/lucaslemaire) &nbsp;&middot;&nbsp;
 > [@Maximus40](https://github.com/Maximus40) &nbsp;&middot;&nbsp;
-> [@Azelaek](https://github.com/Azelaek) &nbsp;&middot;&nbsp;
+> [@Drousselle](https://github.com/Drousselle/) &nbsp;&middot;&nbsp;
 > [@fkiecken](https://github.com/fkiecken) &nbsp;&middot;&nbsp;
