@@ -1,64 +1,28 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, FlatList, Alert, Image, Button, ScrollView, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, FlatList, Image, ImageBackground } from 'react-native';
 import * as DbHandler from "../Database/DatabaseHandler";
+import { Icon } from 'react-native-elements';
 import {withNavigation} from 'react-navigation';
 
-const _renderFooter = () => (
-  <View>
-    <Text></Text>
-    <Text></Text>
-    <Text></Text>
-    <Text></Text>
-    <Text></Text>
-  </View>
-)
 
 class PromoActivity extends Component {
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-          FlatListItems: [],
-        };
-
-        this.refreshFlatList();
-      }
-
-      ListViewItemSeparator = () => {
-        return (
-          <View style={{ height: 0.2, width: '100%', backgroundColor: '#808080' }} />
-        );
-      };
-
-    renderSeparator = () => {
-        return (
-            <View
-                style={{
-                    height: 10,
-                    width: "100%",
-                    backgroundColor: "#f2f2f2",
-                }}
-            />
-        );
-    };
-
-    getListViewItem = (item) => {
-        Alert.alert(item.name, item.description);
-    };
+  constructor(props) {
+      super(props);
+      this.state = {FlatListItems: []};
+      this.refreshFlatList();
+    }
 
     componentDidMount() {
         const {addListener} = this.props.navigation;
         this.listeners = [
             addListener('didFocus', () => {
                 this.refreshFlatList();
-
             })
         ]
     }
 
     refreshFlatList = () => {
-        console.log('Refreshing all promotions from local db');
         let allpromos = undefined;
         const query = async() => {
             await DbHandler.getAllPromotionsScanned().then(function(temp) {
@@ -69,148 +33,131 @@ class PromoActivity extends Component {
         query().then();
     };
 
+    renderItem = ({ item }) => (
+      <View style= {styles.item}>
+        <Image style = {styles.img} source = {{uri: item.image}}/>
+        <View style= {styles.test}>
+          <Text style={styles.itemName}>{item.code}</Text>
+          <View style={{marginLeft: 'auto'}}>
+              <Icon 
+                name='chevron-right' 
+                color='#2c3e50' 
+                size={17} 
+                reverse 
+                onPress={() => this.props.navigation.navigate('PromoDetails', { promo: item})}
+              />
+          </View>
+          <View style={styles.de}>
+              <Text style={styles.percentage}>{item.percentage} % | </Text>
+              <Text style={styles.code}>{item.end_date}</Text>
+          </View>
+        </View>
+      </View>
+    );
+
       render() {
-          if (this.state.FlatListItems.length != 0) {
 
-          return (
+        const gotPromotions = this.state.FlatListItems.length != 0 ? true : false;
 
-              <View style={styles.container}>
+        return (
+          <View style={styles.container}>
+            <View style={{flex:1}}>
+              <ImageBackground 
+                source={require('../assets/header_promo.png')}
+                style={styles.header_image}>
+              </ImageBackground>
 
-                  <Text style={styles.titre}>Promotions</Text>
-                  <Text style={styles.info}>(cliquez sur une promotion pour plus de détails){'\n'}</Text>
+            </View>
+            <View style={styles.content}>
 
-                  <View>
-                      <FlatList
-                          style={styles.FlatList}
-                          extraData={this.state.FlatListItems.refresh}
-                          data={this.state.FlatListItems}
-                          refreshing={this.state.refreshing}
-                          onRefresh={this._handleRefresh}
-                          ListFooterComponent={_renderFooter}
-                          ItemSeparatorComponent={this.ListViewItemSeparator}
-                          keyExtractor={(item, index) => index.toString()}
-                          renderItem={({item}) => (
-                              <TouchableOpacity activeOpacity={0.7}
-                                                onPress={this.getListViewItem.bind(this, item)}>
-                                  <View style={styles.item}>
-
-                                      <Image style={styles.img} source={{uri: 'data:image/png;base64,' + item.image}}/>
-
-
-                                      <Text style={styles.text}>
-                                          <Text style={styles.nameItem}>{item.name}</Text>{'\n'}{'\n'}
-                                          <Text style={styles.titreh4}>Date de début : </Text><Text
-                                          style={styles.libelle}>{item.start_date}</Text>{'\n'}
-                                          <Text style={styles.titreh4}>Date de fin : </Text><Text
-                                          style={styles.libelle}>{item.end_date}</Text>{'\n'}
-                                          <Text style={styles.titreh4}>Remise : </Text><Text
-                                          style={styles.libelle}>{item.percentage} %</Text>
-                                      </Text>
-
-
-                                  </View>
-                              </TouchableOpacity>
-                          )}
-                          ItemSeparatorComponent={this.renderSeparator}
-                      />
+              {gotPromotions
+                ? <FlatList
+                    style={{marginTop: 50}}
+                    data={this.state.FlatListItems}
+                    renderItem={this.renderItem}
+                  />
+                : <View style={{alignItems: 'center'}}>
+                    <Image 
+                      source={require('../assets/empty.png')}
+                      style={styles.empty_image}
+                    />
+                    <Text style={styles.nopromo}>Aucune promotions scannées</Text>
                   </View>
-              </View>
-          );
-      } else{
-              return (
-
-                  <View style={styles.container}>
-
-                      <Text style={styles.titre}>Promotions</Text>
-                      <Text style={styles.info}>(cliquez sur une promotion pour plus de détails){'\n'}</Text>
-
-
-                          <Text style={styles.titreNoPromo}>Aucune promotion scannée</Text>
-                      <TouchableOpacity activeOpacity={0.7} onPress={() => this.props.navigation.navigate('QRScan')} style={styles.btNoPromo}>
-                      <Text style={styles.btNoPromo}>Scanner une promotion</Text>
-
-                      </TouchableOpacity>
-                      </View>
-                      )
-          }
+              }
+            </View>
+          </View>
+        );
       }
-
     }
     export default withNavigation(PromoActivity);
 
     const styles = StyleSheet.create({
-      FlatList: {
-        marginTop: 10,
-          backgroundColor: '#f2f2f2'
+      container: {
+       flex: 1,
+       backgroundColor: "#EFEFF4"
       },
-        container: {
-            flex: 1,
-            marginTop: 20,
-            alignItems: 'center',
-            backgroundColor: '#f2f2f2'
-        },
-        item: {
-          flex:1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            textAlign: "center",
-            padding:30,
-            backgroundColor: '#FFF',
-            elevation: 2,
-            borderRadius: 5,
-            color:'#b75f5e',
-            flexDirection:'row',
-
-
-        },
-        text: {
-
-            textAlign: "center",
-            justifyContent: 'center'
-        },
-        titre: {
-          marginTop: 10,
-          fontSize: 36,
-          fontWeight: 'bold',
-          color:'#b75f5e',
-          textShadowColor: 'black',
-   textShadowOffset: {width: 0, height: 0},
-   textShadowRadius: 1
-
-        },
-        info: {
-         fontSize: 15,
-         fontStyle: 'italic',
-        },
-        img: {
-            width:80,
-            height:80,
-            borderRadius:60,
-            marginRight:20,
-
-       },
-       titreh4: {
-
-       },
-       nameItem: {
-           color:'#b75f5e',
-         fontWeight: 'bold',
-         fontSize: 20,
-       },
-        titreNoPromo:{
-            fontWeight: 'bold',
-            color:'#b75f5e',
-            textAlign:'center',
-            fontSize:28,
-            marginTop:'10%',
-            marginBottom:'15%',
-        },
-        btNoPromo:{
-            borderRadius: 50,
-          padding:10,
-          justifyContent:'center',
-          backgroundColor:'#fff',
-          color:'#b75f5e',
-
-        }
-    });
+      content: {
+        backgroundColor: '#ecf0f1',
+        flex:2.5,
+        alignItems: 'center',
+        borderTopLeftRadius: 50,
+        borderTopRightRadius: 50,
+        marginTop: -40
+      },
+      header_image: {
+        flex: 1,
+        resizeMode: "cover",
+        justifyContent: "center"
+      },    
+      item: {
+        marginTop: 12.5,
+        marginBottom: 12.5,
+        marginLeft: 30,
+        marginRight: 20,
+        flex: 1,
+        flexDirection: 'row',
+      },
+      img: {
+        height: 80,
+        width: 80,
+        marginBottom: 5,
+      },
+      topViewImage: {
+        flex: 1,
+        resizeMode: "cover",
+        justifyContent: "center"
+      },
+      test: {
+        flexDirection: 'column',
+        flex: 2,
+        marginLeft: 10,
+        marginTop: 5,
+      },
+      itemName: {
+        fontWeight: 'bold',
+        marginTop: -5,
+        flex: 1,
+        flexWrap: 'wrap'
+      },
+      code: {
+        marginBottom: 5,
+        color: "#B2B2BB"
+      },
+      de: {
+        flexDirection: "row",
+        marginTop: -10
+      },
+      percentage: {
+        fontWeight: 'bold',
+      },
+      empty_image:{
+        width: 250,
+        height: 250,
+        marginTop: 100
+      },
+      nopromo: {
+        fontSize: 15,
+        marginTop: 20,
+        fontWeight: '600'
+      }
+    })

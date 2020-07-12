@@ -1,105 +1,186 @@
-import React, {Component} from 'react';
-import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
-import Carousel from '../Component/Carousel'
-import {dummyData} from '../Data/Data'
-import * as DbHandler from "../Database/DatabaseHandler";
-import PromoScan from "../Component/PromosScan";
-import {withNavigation} from 'react-navigation';
+import React, {Component} from 'react'
+import { 
+      StyleSheet,
+      Text,
+      View,
+      Image,
+      ScrollView,
+      Button,
+      TouchableOpacity,
+      ActivityIndicator
+    } from 'react-native'
+import {
+      withNavigation
+    } from 'react-navigation'
+import {API_URL, API_PORT} from 'react-native-dotenv';
+import HorizontalList from '../Component/HorizontalList'
 
 
 class HomeActivity extends Component {
 
   constructor(props) {
     super(props);
-
     this.state = {
-      lastItem: undefined,
-      texte:'salut les loulous',
-      isDisplayed: true,
-    };
-
-    this.refreshFlatList();
+      loading: true,
+      TopPromotions: []
+    }
+    this.refreshTopPromotions();
   }
-
 
   componentDidMount() {
     const {addListener} = this.props.navigation;
     this.listeners = [
-        addListener('didFocus', () => {
-          this.refreshFlatList();
-
-
-        })
+      addListener('didfocus', () => {
+        this.refreshTopPromotions();
+      })
     ]
   }
 
-  refreshFlatList() {
-    console.log('Refreshing last promotion from local db');
-    let lastpromo = undefined;
-    const query = async() => {
-      await DbHandler.getLastPromotionScanned().then(function (results) {
-        lastpromo = results;
-      });
-      this.setState({lastItem: lastpromo});
+  refreshTopPromotions = () => {
+    const requestUrl = "http://" + API_URL + ":" + API_PORT + "/top3-promotions/"
+    const request = async() => {
+      const reqHeaders = new Headers();
+      reqHeaders.append("Authorization", ("token " + "4b4f84635ba999668d6eba5b702f92033da698c4"));
+      const head = {method: 'GET',
+                    headers: reqHeaders,
+                    mode: 'cors',
+                    cache: 'default'};
+      const response = await fetch(requestUrl, head);
+      if(response.status >= 200 && response.status < 300){
+          const json = await response.json();
+          promotions = []
+          json.forEach(element => {
+            promotions.push({'name': element.code, 'percentage': element.percentage, 'imageUri': element.base64_image});
+          });
+          this.setState({
+            loading: false,
+            TopPromotions: promotions
+          })
+      } else {
+          alert('Impossible de récupérer les promotion');
+      }
     };
-    query().then();
-  };
+    request().then();
+  }
 
-  render(){
-    return (
-        <View style= {styles.container}>
-          <ScrollView style={styles.scrollView}>
-            <Image
-                style={{
-                  alignSelf: 'center',
-                  height: 112,
-                  width: 170,
-                  marginTop: 40,
-                  borderWidth: 1,
-                  borderRadius: 75
-                }}
-                source={require('../assets/mspr_logo.png')}
-                resizeMode="stretch"/>
-            <Text style= {styles.title1}>Promos en cours</Text>
-            <Carousel data  = {dummyData}/>
-
-            <PromoScan lastItem={this.state.lastItem}/>
-          </ScrollView>
+  render() {
+    if(this.state.loading){
+      return( 
+        <View style={styles.loader}> 
+          <ActivityIndicator size="large" color="#ecf0f1"/>
         </View>
-    );
+    )}
+    return (
+      <ScrollView
+        scrollEventThrottle={16}
+        style={styles.scrollview}
+      >
+        <View style={styles.container}>
+          <View style={{alignItems: 'center'}}>
+            <Image
+              source={require('../assets/mspr_logo.png')} 
+              style={styles.logo}
+            />
+          </View>
+          <View style={styles.card}>
+            <Text style={styles.card_title}>Une liste de vos promotions</Text>
+            <Text style={styles.card_subtitle}>Récuperez une promotion</Text>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('Promo')} style={styles.appButtonContainer}>
+              <Text style={styles.appButtonText}>Ma liste</Text>
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.title}>Top promotions</Text>
+          <View>
+            <ScrollView
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+            >
+              {
+                this.state.TopPromotions.map((item, index) => (
+                  <HorizontalList
+                    imageUri={item.imageUri}
+                    name={item.name}
+                    percentage={item.percentage}
+                  />
+                ))
+              }
+            </ScrollView>
+          </View>
+        </View>
+      </ScrollView>
+  );
   }
 }
 
 export default withNavigation(HomeActivity);
 
 const styles = StyleSheet.create({
-
-  container: {
-
+  scrollview:{
+    backgroundColor: '#ecf0f1'
+  },
+  loader: {
+    marginTop: 50
+  }, 
+  container:{
     flex: 1,
-    backgroundColor: '#f2f2f2'
+    backgroundColor: '#ecf0f1',
+    paddingTop: 20
   },
-  title1: {
-    color:'#b75f5e',
-    marginBottom: 10,
+  logo:{
+    width: 200,
+    height: 150
+  },
+  card:{
+    height: 150, 
+    backgroundColor: '#b74a4a',
+    borderRadius: 20,
+    marginLeft: 20,
+    marginRight: 20,
+    marginTop: 20
+  },
+  card_title:{
+    fontSize: 18,
+    fontWeight: '500',
+    color: 'white',
+    marginLeft: 20,
+    marginTop: 20
+  },
+  card_subtitle:{
+    fontSize: 15,
+    fontWeight: '400',
+    color: 'white',
+    marginLeft: 20,
+    marginTop: 5
+  },
+  appButtonContainer:{
+    elevation: 8,
+    backgroundColor: "white",
+    borderRadius: 10,
+    width: 100,
+    marginLeft: 20,
     marginTop: 20,
-    textAlign: 'center',
-    fontWeight: 'bold',
-    fontSize: 25,
-    textShadowColor: 'black',
-    textShadowOffset: {width: 0, height: 0},
-    textShadowRadius: 1
+    paddingVertical: 10,
+    paddingHorizontal: 12
   },
-  title2: {
-
-    color:'#b75f5e',
-    marginBottom: 10,
-    marginTop: 10,
-    textAlign: 'center',
-    fontWeight: 'bold',
-    fontSize: 25,
-    textShadowColor: 'black',
-    textShadowOffset: {width: 0, height: 0},
-    textShadowRadius: 1
+  appButtonText:{
+    fontSize: 17,
+    color: "black",
+    fontWeight: "bold",
+    alignSelf: "center",
+  },
+  button:{
+    borderRadius: 50,
+    width: 120,
+    height: 50,
+    marginLeft: 20,
+    marginTop: 20,
+    backgroundColor: 'white'
+  },
+  title:{
+    fontSize: 24,
+    fontWeight: '700',
+    marginLeft: 20,
+    marginTop: 30,
+    marginBottom: 30
   }
 });
