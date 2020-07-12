@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, FlatList, Image, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, FlatList, Image, ImageBackground, Alert } from 'react-native';
 import * as DbHandler from "../Database/DatabaseHandler";
 import { Icon } from 'react-native-elements';
 import {withNavigation} from 'react-navigation';
@@ -33,18 +33,22 @@ class PromoActivity extends Component {
         query().then();
     };
 
+    getListViewItem = (item) => {
+      Alert.alert(item.name, item.description);
+    }
+
     renderItem = ({ item }) => (
       <View style= {styles.item}>
-        <Image style = {styles.img} source = {{uri: item.image}}/>
+        <Image style = {styles.img} source={{uri: 'data:image/png;base64,' + item.image}}/>
         <View style= {styles.test}>
-          <Text style={styles.itemName}>{item.code}</Text>
+    <Text style={styles.itemName}>{item.code}</Text>
           <View style={{marginLeft: 'auto'}}>
               <Icon 
                 name='chevron-right' 
                 color='#2c3e50' 
                 size={17} 
                 reverse 
-                onPress={() => this.props.navigation.navigate('PromoDetails', { promo: item})}
+                onPress={this.getListViewItem.bind(this, item)}
               />
           </View>
           <View style={styles.de}>
@@ -72,10 +76,14 @@ class PromoActivity extends Component {
 
               {gotPromotions
                 ? <FlatList
-                    style={{marginTop: 50}}
-                    data={this.state.FlatListItems}
-                    renderItem={this.renderItem}
-                  />
+                  style={{marginTop: 50}}
+                  extraData={this.state.FlatListItems.refresh}
+                  refreshing={this.state.refreshing}
+                  onRefresh={this._handleRefresh}
+                  keyExtractor={(item, index) => index.toString()}
+                  data={this.state.FlatListItems}
+                  renderItem={this.renderItem}
+                />
                 : <View style={{alignItems: 'center'}}>
                     <Image 
                       source={require('../assets/empty.png')}
@@ -99,7 +107,6 @@ class PromoActivity extends Component {
       content: {
         backgroundColor: '#ecf0f1',
         flex:2.5,
-        alignItems: 'center',
         borderTopLeftRadius: 50,
         borderTopRightRadius: 50,
         marginTop: -40

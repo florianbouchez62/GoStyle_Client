@@ -6,7 +6,7 @@ export function createTablePromotions(){
             tx.executeSql(
                 "CREATE TABLE IF NOT EXISTS promotions (" +
                 "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-                "name TEXT NOT NULL," +
+                "code TEXT NOT NULL," +
                 "description TEXT NOT NULL," +
                 "start_date TEXT NOT NULL," +
                 "end_date TEXT NOT NULL," +
@@ -42,8 +42,8 @@ export function insertPromotion(promotion, apiPath, currentDate){
         tx => {
 
             tx.executeSql(
-                "INSERT INTO promotions (name, description, start_date, end_date, scan_date, percentage, image, api_path) VALUES (?,?,?,?,?,?,?,?)",
-                [promotion._name, promotion._description, promotion._start, promotion._end, currentDate, promotion._percentage, promotion._image, apiPath],
+                "INSERT INTO promotions (code, description, start_date, end_date, scan_date, percentage, image, api_path) VALUES (?,?,?,?,?,?,?,?)",
+                [promotion._code, promotion._description, promotion._start, promotion._end, currentDate, promotion._percentage, promotion._image, apiPath],
                 (tx, results) => {console.log("Row promotions inserted successfully: " + results);},
                 (tx, error) => {console.log("Could not insert row promotions: " + error);}
             );

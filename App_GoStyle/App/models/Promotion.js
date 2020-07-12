@@ -1,21 +1,17 @@
 export class Promotion{
 
-    constructor(id, name, description, start, end, percentage, image) {
+    constructor(id, code, description, start, end, percentage, image) {
         this._id = id;
-        this._name = name;
+        this._code = code;
         this._description = description;
         this._start = start;
         this._end = end;
         this._percentage = percentage;
         this._image = image;
-    }
+        }
 
     get id() {
         return this._id;
-    }
-
-    get name() {
-        return this._name;
     }
 
     get description() {
@@ -36,5 +32,9 @@ export class Promotion{
 
     get image() {
         return this._image;
+    }
+
+    get code() {
+        return this._code;
     }
 }

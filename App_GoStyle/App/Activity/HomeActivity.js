@@ -40,13 +40,14 @@ class HomeActivity extends Component {
     const requestUrl = "http://" + API_URL + ":" + API_PORT + "/top3-promotions/"
     const request = async() => {
       const reqHeaders = new Headers();
-      reqHeaders.append("Authorization", ("token " + "4b4f84635ba999668d6eba5b702f92033da698c4"));
+      reqHeaders.append("Authorization", ("token " + "a8ce57362267765112e9918b133f640426d939a3"));
       const head = {method: 'GET',
                     headers: reqHeaders,
                     mode: 'cors',
                     cache: 'default'};
       const response = await fetch(requestUrl, head);
       if(response.status >= 200 && response.status < 300){
+        console.log("ZIZIZIZIZI");
           const json = await response.json();
           promotions = []
           json.forEach(element => {
@@ -101,6 +102,7 @@ class HomeActivity extends Component {
                     imageUri={item.imageUri}
                     name={item.name}
                     percentage={item.percentage}
+                    key={item}
                   />
                 ))
               }
