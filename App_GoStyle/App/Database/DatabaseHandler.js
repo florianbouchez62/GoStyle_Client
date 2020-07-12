@@ -1,8 +1,11 @@
 import db from './Database';
 
 
-export function createTablePromotions(){
-    db.transaction(tx => {
+export function createTablePromotions(dbUse){
+    if(!dbUse){
+        dbUse = db;
+    }
+    dbUse.transaction(tx => {
             tx.executeSql(
                 "CREATE TABLE IF NOT EXISTS promotions (" +
                 "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
@@ -15,7 +18,7 @@ export function createTablePromotions(){
                 "image TEXT NOT NULL," +
                 "api_path TEXT NOT NULL UNIQUE);",
                 [],
-                (tx, results) => {console.log("Table promotions created successfully: " + results);},
+                (tx, results) => {return results.insertId;},
                 (tx, error) => {console.log("Could not create table promotions: " + error);}
             );
         },
@@ -24,11 +27,14 @@ export function createTablePromotions(){
     );
 }
 
-export function dropTablePromotions(){
-    db.transaction(tx => {
+export function dropTablePromotions(dbUse){
+    if(!dbUse){
+        dbUse = db;
+    }
+    dbUse.transaction(tx => {
             tx.executeSql("DROP TABLE IF EXISTS promotions",
                 [],
-                (tx, results) => {console.log("Table promotions dropped successfully: " + results)},
+                (tx, results) => {return results.insertId;},
                 (tx, error) => {console.log("Could not drop table promotions: " + error);}
                 );
         },
@@ -37,8 +43,11 @@ export function dropTablePromotions(){
     );
 }
 
-export function insertPromotion(promotion, apiPath, currentDate){
-    db.transaction(
+export function insertPromotion(promotion, apiPath, currentDate, dbUse){
+   if(!dbUse){
+       dbUse = db;
+   }
+    dbUse.transaction(
         tx => {
 
             tx.executeSql(
@@ -51,14 +60,18 @@ export function insertPromotion(promotion, apiPath, currentDate){
         },
         error => {
             console.log("Error on transaction (insert row promotions): " + error);
+
         },
         () => {
             console.log("Transaction done (insert row promotions) successfully !");
+
+
         }
     );
 }
 
 export function findPromotionByPath(apiPath){
+
     return new Promise(function(resolve, reject) {
         db.transaction(
             tx => {
