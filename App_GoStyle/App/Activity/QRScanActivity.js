@@ -120,7 +120,7 @@ class QRScanActivity extends React.Component {
             const current_date = new Date();
             const string_date = current_date.getFullYear() + '-' + current_date.getMonth() + '-' + current_date.getDay();
             DbHandler.insertPromotion(promotion, apiPath, string_date);
-            alert("Le code " + promotion.name + " ayant pour description : " + promotion.description + " a bien été recupéré.");
+            alert("Le code " + promotion.code + " ayant pour description : " + promotion.description + " a bien été recupéré.");
         } else {
             alert("La promotion associé au QRCode a déjà été récupérée");
         }
