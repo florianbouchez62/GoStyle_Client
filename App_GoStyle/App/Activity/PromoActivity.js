@@ -89,7 +89,7 @@ class PromoActivity extends Component {
                       source={require('../assets/empty.png')}
                       style={styles.empty_image}
                     />
-                    <Text style={styles.nopromo}>Aucune promotions scannées</Text>
+                    <Text style={styles.nopromo}>Aucune promotion scannée</Text>
                   </View>
               }
             </View>
