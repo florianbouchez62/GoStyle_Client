@@ -1,8 +1,11 @@
 import db from './Database';
 
 
-export function createTablePromotions(){
-    db.transaction(tx => {
+export function createTablePromotions(dbUse){
+    if(!dbUse){
+        dbUse = db;
+    }
+    dbUse.transaction(tx => {
             tx.executeSql(
                 "CREATE TABLE IF NOT EXISTS promotions (" +
                 "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
@@ -15,7 +18,7 @@ export function createTablePromotions(){
                 "image TEXT NOT NULL," +
                 "api_path TEXT NOT NULL UNIQUE);",
                 [],
-                (tx, results) => {console.log("Table promotions created successfully: " + results);},
+                (tx, results) => {return results.insertId;},
                 (tx, error) => {console.log("Could not create table promotions: " + error);}
             );
         },
@@ -24,21 +27,27 @@ export function createTablePromotions(){
     );
 }
 
-export function dropTablePromotions(){
-    db.transaction(tx => {
+export function dropTablePromotions(dbUse){
+    if(!dbUse){
+        dbUse = db;
+    }
+    dbUse.transaction(tx => {
             tx.executeSql("DROP TABLE IF EXISTS promotions",
                 [],
-                (tx, results) => {console.log("Table promotions dropped successfully: " + results)},
+                (tx, results) => {return results.insertId;},
                 (tx, error) => {console.log("Could not drop table promotions: " + error);}
-                );
+            );
         },
         error => { console.log("Error on transaction (drop table promotions): " + error);},
         () => {console.log("Transaction done (drop table promotions) successfully !");}
     );
 }
 
-export function insertPromotion(promotion, apiPath, currentDate){
-    db.transaction(
+export function insertPromotion(promotion, apiPath, currentDate, dbUse){
+    if(!dbUse){
+        dbUse = db;
+    }
+    dbUse.transaction(
         tx => {
 
             tx.executeSql(
@@ -51,14 +60,18 @@ export function insertPromotion(promotion, apiPath, currentDate){
         },
         error => {
             console.log("Error on transaction (insert row promotions): " + error);
+
         },
         () => {
             console.log("Transaction done (insert row promotions) successfully !");
+
+
         }
     );
 }
 
 export function findPromotionByPath(apiPath){
+
     return new Promise(function(resolve, reject) {
         db.transaction(
             tx => {
@@ -82,7 +95,7 @@ export function getLastPromotionScanned(){
                     [],
                     (tx, result) => {resolve(result.rows.item(0))},
                     (tx, error) => {console.log("Could not get last promotion: " + error);}
-                    );
+                );
             },
             error => {console.log("Error on transaction (select last promotion): " + error);},
             () => {console.log("Transaction done (select last promotion) successfully !");}
@@ -93,33 +106,33 @@ export function getLastPromotionScanned(){
 export function getAllPromotionsScanned(){
     return new Promise(function(resolve, reject) {
         db.transaction(
-          tx => {
-              tx.executeSql('SELECT * FROM Promotions ORDER BY id DESC',
-                  [],
-                  (tx, result) => {
-                      var temp = [];
-                      for (let i = 0; i < result.rows.length; ++i) {
-                          const item = result.rows.item(i);
+            tx => {
+                tx.executeSql('SELECT * FROM Promotions ORDER BY id DESC',
+                    [],
+                    (tx, result) => {
+                        var temp = [];
+                        for (let i = 0; i < result.rows.length; ++i) {
+                            const item = result.rows.item(i);
 
-                          const start_date_format = new Date(item.start_date);
-                          item.start_date = ('0' + start_date_format.getDate()).slice(-2) + '/'
-                              + ('0' + start_date_format.getMonth()).slice(-2) + '/'
-                              + start_date_format.getFullYear();
+                            const start_date_format = new Date(item.start_date);
+                            item.start_date = ('0' + start_date_format.getDate()).slice(-2) + '/'
+                                + ('0' + start_date_format.getMonth()).slice(-2) + '/'
+                                + start_date_format.getFullYear();
 
-                          const end_date_format = new Date(item.end_date);
-                          item.end_date = ('0' + end_date_format.getDate()).slice(-2) + '/'
-                              + ('0' + end_date_format.getMonth()).slice(-2) + '/'
-                              + end_date_format.getFullYear();
+                            const end_date_format = new Date(item.end_date);
+                            item.end_date = ('0' + end_date_format.getDate()).slice(-2) + '/'
+                                + ('0' + end_date_format.getMonth()).slice(-2) + '/'
+                                + end_date_format.getFullYear();
 
-                          temp.push(item);
-                          resolve(temp);
-                      }
-                  },
-                  (tx, error) => {
+                            temp.push(item);
+                            resolve(temp);
+                        }
+                    },
+                    (tx, error) => {
                         console.log('Could not get all promotions :' + error);
-                  }
-              );
-          },
+                    }
+                );
+            },
             error => {console.log("Error on transaction (select all promotions): " + error);},
             () => {console.log("Transaction done (select all promotions) successfully !");}
         );

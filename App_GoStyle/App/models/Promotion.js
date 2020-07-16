@@ -13,7 +13,9 @@ export class Promotion{
     get id() {
         return this._id;
     }
-
+    get code() {
+        return this._code;
+    }
     get description() {
         return this._description;
     }
@@ -34,7 +36,5 @@ export class Promotion{
         return this._image;
     }
 
-    get code() {
-        return this._code;
-    }
+
 }
