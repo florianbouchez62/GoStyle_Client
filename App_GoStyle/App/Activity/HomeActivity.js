@@ -99,7 +99,7 @@ class HomeActivity extends Component {
                 this.state.TopPromotions.map((item, index) => (
                   <HorizontalList
                     imageUri={item.imageUri}
-                    name={item.name}
+                    name={item.desc}
                     percentage={item.percentage}
                     key={item}
                   />
