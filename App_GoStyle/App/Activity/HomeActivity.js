@@ -50,7 +50,7 @@ class HomeActivity extends Component {
           const json = await response.json();
           promotions = []
           json.forEach(element => {
-            promotions.push({'name': element.code, 'percentage': element.percentage, 'imageUri': element.base64_image});
+            promotions.push({'desc': element.description, 'percentage': element.percentage, 'imageUri': element.base64_image});
           });
           this.setState({
             loading: false,
