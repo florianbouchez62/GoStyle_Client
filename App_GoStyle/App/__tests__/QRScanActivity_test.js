@@ -46,11 +46,11 @@ describe('Test insertDb', () => {
     const db = { transaction: jest.fn((func) => func(tx)) };
     const now = new Date();
     let apiPath="/promotions/999";
-    const Promo = new Promotion(999, 'codeTest','descTest', '2030-03-20', '2030-03-21', 50.0, '')
+    const Promo = new Promotion(999, 'nameTest','descTest', '2030-03-20', '2030-03-21', 50.0, '')
     insertPromotion(Promo, apiPath, now, db);
 
     it('mocks sql', () => {
-        expect(tx.executeSql.mock.calls[0][1]).toStrictEqual(['codeTest','descTest', '2030-03-20', '2030-03-21',now, 50.0,'', apiPath])
+        expect(tx.executeSql.mock.calls[0][1]).toStrictEqual(['nameTest','descTest', '2030-03-20', '2030-03-21',now, 50.0,'', apiPath])
     });
 });
 

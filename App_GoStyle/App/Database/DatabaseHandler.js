@@ -44,9 +44,9 @@ export function dropTablePromotions(dbUse){
 }
 
 export function insertPromotion(promotion, apiPath, currentDate, dbUse){
-    if(!dbUse){
-        dbUse = db;
-    }
+   if(!dbUse){
+       dbUse = db;
+   }
     dbUse.transaction(
         tx => {
 
