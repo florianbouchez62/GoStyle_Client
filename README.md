@@ -33,12 +33,14 @@ For the QRCode scan, make sure that your phone is on the same network as your co
 ### Project configuration
 - Copy the file `.env.example` and rename it to `.env`
 - Replace the value of `API_URL` with the API URL and `API_PORT` with the API port. 
+- On the API WebSite, go to Admin Panel, then access "Token" menu and copy the token of user "Application" to `APP_TOKEN`
 
 Example with API hosted at `192.168.1.1:8000` :
 ````
 # GoStyle_Client\App_GoStyle\App\.env
 API_URL=192.168.1.1
 API_PORT=8000
+APP_TOKEN=token
 ````
 ### Run on Android
 - In `App` folder execute  `expo start`
