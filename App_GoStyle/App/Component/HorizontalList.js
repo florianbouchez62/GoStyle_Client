@@ -13,14 +13,14 @@ class HorizontalList extends Component {
                 <View style={{flex: 1, flexDirection: 'column'}}>
                     <View style={{height: '50%'}}>
                         <View style={{borderRadius: 50, width: 80, height: 80, marginLeft: 20, marginTop: 20}}>
-                            <ImageBackground source={{uri: 'data:image/png;base64,' + this.props.imageUri}} style={styles.image} imageStyle={{ borderRadius: 25 }}/>
+                            <ImageBackground source={{uri: 'data:image/png;base64,' + this.props.imageUri}} style={styles.image}}/>
                         </View>
                     </View>
                     <View style={{height: '20%'}}>
-                        <Text style={{marginLeft: 20, fontSize: 24, fontWeight: '700'}}>{this.props.name}</Text>
+                        <Text style={{marginLeft: 20, fontSize: 16, fontWeight: '700'}}>{this.props.name}</Text>
                     </View>
                     <View style={{height: '30%'}}>
-                        <Text style={{marginLeft: 20, fontSize: 18, fontWeight: '700'}}>{this.props.percentage} %</Text>
+                        <Text style={{marginLeft: 20, fontSize: 18, fontWeight: '700'}}>Réduction : {this.props.percentage} %</Text>
                     </View>
                 </View>
             </View>
