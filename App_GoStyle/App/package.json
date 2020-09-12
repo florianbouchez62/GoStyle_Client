@@ -19,7 +19,7 @@
     "jest-fetch-mock": "^3.0.3",
     "link": "^0.1.5",
     "moment": "^2.24.0",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
     "react-native": "~0.61.4",
